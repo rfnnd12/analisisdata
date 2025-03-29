@@ -6,38 +6,52 @@ import matplotlib.pyplot as plt
 # Membaca data
 data = pd.read_csv('data/data_1.csv')  # Pastikan file CSV berada dalam folder yang sama
 
-# Menampilkan header
+# Judul dashboard
 st.title("Dashboard Analisis Data Bike Sharing")
-st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 
-# Menampilkan data yang dibaca
+# Tampilkan data
 st.subheader("Data Head")
 st.write(data.head())
 
-# Menampilkan analisis deskriptif
+# Statistik deskriptif
 st.subheader("Statistik Deskriptif")
 st.write(data.describe())
 
-# Visualisasi Korelasi
+# --- Pertanyaan Bisnis 1: Pola Penggunaan Sepeda Sepanjang Hari ---
+st.subheader("Pola Sewa per Jam")
+hourly_rentals = data.groupby('hr')['cnt'].mean().reset_index()
+plt.figure(figsize=(12, 6))
+plt.plot(hourly_rentals['hr'], hourly_rentals['cnt'], marker='o', linestyle='-')
+plt.title('Rata-rata Sewa Sepeda per Jam')
+plt.xlabel('Jam')
+plt.ylabel('Jumlah Sewa')
+plt.grid(True)
+st.pyplot(plt)
+
+st.write("Dari visualisasi di atas, terlihat bahwa penggunaan sepeda paling tinggi terjadi pada jam-jam sibuk, yaitu sekitar pukul 7-9 pagi dan pukul 17-19 sore. Hal ini menunjukkan bahwa sepeda banyak digunakan untuk keperluan berangkat dan pulang kerja.")
+
+# --- Pertanyaan Bisnis 2: Pengaruh Cuaca terhadap Jumlah Penyewaan ---
+st.subheader("Pengaruh Cuaca terhadap Jumlah Sewa")
+plt.figure(figsize=(12, 6))
+sns.boxplot(x='weathersit', y='cnt', data=data)
+plt.title('Jumlah Sewa Sepeda berdasarkan Kondisi Cuaca')
+plt.xlabel('Kondisi Cuaca (1: Cerah, 2: Berawan, 3: Ringan Hujan, 4: Hujan Lebat)')
+plt.ylabel('Jumlah Sewa')
+st.pyplot(plt)
+
+st.write("Dari visualisasi di atas, terlihat bahwa kondisi cuaca berpengaruh terhadap jumlah penyewaan sepeda. Jumlah penyewaan tertinggi terjadi pada saat cuaca cerah (weathersit=1), dan menurun seiring dengan memburuknya kondisi cuaca.")
+
+# --- Heatmap Korelasi ---
 st.subheader("Heatmap Korelasi")
-# Select only numeric columns for calculating the correlation
 numeric_data = data.select_dtypes(include=['number'])
-corr = numeric_data.corr()  # Menghitung korelasi antara kolom numerik
+corr = numeric_data.corr()
 fig, ax = plt.subplots(figsize=(10, 6))
 sns.heatmap(corr, annot=True, cmap='coolwarm', ax=ax)
 st.pyplot(fig)
 
-# Visualisasi lainnya (contoh: scatter plot)
-st.subheader("Scatter Plot: Temperature vs Count")
-fig2, ax2 = plt.subplots(figsize=(10, 6))
-sns.scatterplot(data=data, x='temp', y='cnt', hue='season', palette='viridis', ax=ax2)
-st.pyplot(fig2)
-
-# Analisis tambahan: menambahkan filter waktu (misalnya filter berdasarkan 'hour')
+# --- Filter data berdasarkan jam ---
 st.subheader("Analisis Berdasarkan Jam")
 hour_filter = st.slider("Pilih Jam", min_value=0, max_value=23, value=12)
 filtered_data = data[data['hr'] == hour_filter]
 st.write(f"Data untuk Jam {hour_filter}:")
 st.write(filtered_data)
-
-
