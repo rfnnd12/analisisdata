@@ -3,8 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-st.set_option('deprecation.showPyplotGlobalUse', False)
-
 st.title("Dashboard Analisis Data Bike Sharing")
 st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 
