@@ -16,17 +16,15 @@ st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 
 # Menampilkan data yang dibaca
 # --- Tren Penjualan Produk X (6 Bulan Terakhir) ---
-# Mengubah tipe data kolom 'dateday' menjadi datetime
-# day_df['dteday'] = pd.to_datetime(day_df['dteday']) # Line causing the error
-day_df['dateday'] = pd.to_datetime(day_df['dateday']) # Corrected line using 'dateday'
+day_df['dateday'] = pd.to_datetime(day_df['dateday'])
 
 # Filter data 6 bulan terakhir
-six_months_ago = day_df['dateday'].max() - pd.DateOffset(months=6) # Corrected line using 'dateday'
-filtered_data = day_df[day_df['dateday'] >= six_months_ago] # Corrected line using 'dateday'
+six_months_ago = day_df['dateday'].max() - pd.DateOffset(months=6) 
+filtered_data = day_df[day_df['dateday'] >= six_months_ago] 
 
 # Plot tren penjualan
 plt.figure(figsize=(12, 6))
-plt.plot(filtered_data['dateday'], filtered_data['count']) # Corrected line using 'count'
+plt.plot(filtered_data['dateday'], filtered_data['count'])
 plt.title('Tren Penjualan Produk X (6 Bulan Terakhir)')
 plt.xlabel('Tanggal')
 plt.ylabel('Jumlah Penjualan')
@@ -34,7 +32,7 @@ plt.grid(True)
 plt.show()
 
 # --- Faktor-faktor yang Memengaruhi Jumlah Rental ---
-correlation = hour_df[['year', 'hour', 'count']].corr() # Changed to only include numerical columns
+correlation = hour_df[['year', 'hour', 'count']].corr() 
 print(correlation['count'])
 
 # Visualisasi korelasi menggunakan heatmap
