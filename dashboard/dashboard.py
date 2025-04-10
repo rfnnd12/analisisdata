@@ -41,14 +41,6 @@ hour_df["dateday"] = pd.to_datetime(hour_df["dateday"])
 min_date = day_df["dateday"].min()
 max_date = day_df["dateday"].max()
 
-# Filter data melalui sidebar
-with st.sidebar:
-    st.image("Dashboard/mountain-bike.jpg")
-    start_date, end_date = st.date_input("Rentang Waktu", min_value=min_date, max_value=max_date, value=[min_date, max_date])
-
-filtered_day_df = day_df[(day_df["dateday"] >= pd.Timestamp(start_date)) & (day_df["dateday"] <= pd.Timestamp(end_date))]
-filtered_hour_df = hour_df[(hour_df["dateday"] >= pd.Timestamp(start_date)) & (hour_df["dateday"] <= pd.Timestamp(end_date))]
-
 # DataFrame untuk analisis
 yearly_df = create_yearly_df(filtered_day_df)
 monthly_df = create_monthly_df(filtered_day_df)
