@@ -7,8 +7,8 @@ st.title("Dashboard Analisis Data Bike Sharing")
 st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 
 # Load dataset
-day_df = pd.read_csv("dashboard/day_clean.csv")
-hour_df = pd.read_csv("dashboard/hour_clean.csv")
+day_df = pd.read_csv("dashboard/day_cleaned.csv")
+hour_df = pd.read_csv("dashboard/hour_cleaned.csv")
 
 
 # Footer
