@@ -6,11 +6,8 @@ import seaborn as sns
 # Judul aplikasi
 st.title("Dashboard Analisis Data")
 
-# Memuat dataset
-@st.cache_data
-def load_data():
-    df = pd.read_csv("data/data_1.csv")  # Ganti dengan nama file yang kamu pakai
-    return df
+# Membaca data
+data = pd.read_csv('data/data_1.csv')
 
 # Menampilkan header
 st.title("Dashboard Analisis Data Bike Sharing")
