@@ -69,6 +69,19 @@ ax3.set_ylabel('Jumlah Rental')
 ax3.grid(axis='y')
 st.pyplot(fig3)
 
+# --- Kesimpulan ---
+st.markdown("---")
+st.subheader("📌 Kesimpulan Analisis")
+
+st.info("""
+**Penggunaan sepeda cenderung meningkat pada musim panas dan musim gugur**, dengan tren peminjaman yang konsisten dan stabil selama periode tersebut.
+
+**Korelasi yang signifikan ditemukan antara suhu (baik aktual maupun terasa) dengan jumlah peminjaman sepeda**, yang menunjukkan bahwa cuaca hangat mendorong lebih banyak orang untuk bersepeda.
+
+**Tren penggunaan sepeda dari waktu ke waktu menunjukkan fluktuasi** yang dapat dipengaruhi oleh faktor musiman dan kondisi cuaca.
+""")
+
+
 # ================== Footer ==================
 st.markdown("---")
 st.caption("📌 Dibuat oleh **Rafi Nanda Edtrian** | Proyek Analisis Data Dicoding")
