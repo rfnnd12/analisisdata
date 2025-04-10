@@ -6,8 +6,9 @@ import seaborn as sns
 # Judul aplikasi
 st.title("Dashboard Analisis Data")
 
-# Membaca data
-data = pd.read_csv('data/data_1.csv')
+# Muat dataset day_df dan hour_df
+day_df = pd.read_csv("Dashboard/day_clean.csv")
+hour_df = pd.read_csv("Dashboard/hour_clean.csv")
 
 # Menampilkan header
 st.title("Dashboard Analisis Data Bike Sharing")
