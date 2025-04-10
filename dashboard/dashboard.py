@@ -88,16 +88,25 @@ season_map = {
     4: 'Winter ❄️'
 }
 
-filtered_season_df = day_df[day_df['season'].isin(season_filter)]
-seasonal_distribution = filtered_season_df.groupby('season')['count'].sum().rename(index=season_map)
+# Filter berdasarkan musim dan rentang tanggal
+filtered_season_df = day_df[
+    (day_df['season'].isin(season_filter)) &
+    (day_df['dateday'] >= pd.to_datetime(start_date)) &
+    (day_df['dateday'] <= pd.to_datetime(end_date))
+]
 
-fig3, ax3 = plt.subplots(figsize=(8, 4))
-seasonal_distribution.plot(kind='bar', color='skyblue', ax=ax3)
-ax3.set_title('Jumlah Rental per Musim (Terseleksi)')
-ax3.set_xlabel('Musim')
-ax3.set_ylabel('Jumlah Rental')
-ax3.grid(axis='y')
-st.pyplot(fig3)
+if filtered_season_df.empty:
+    st.warning("Tidak ada data untuk musim dan rentang tanggal yang dipilih.")
+else:
+    seasonal_distribution = filtered_season_df.groupby('season')['count'].sum().rename(index=season_map)
+    
+    fig3, ax3 = plt.subplots(figsize=(8, 4))
+    seasonal_distribution.plot(kind='bar', color='skyblue', ax=ax3)
+    ax3.set_title('Jumlah Rental per Musim (Terseleksi)')
+    ax3.set_xlabel('Musim')
+    ax3.set_ylabel('Jumlah Rental')
+    ax3.grid(axis='y')
+    st.pyplot(fig3)
 
 # ================== Footer ==================
 st.markdown("---")
