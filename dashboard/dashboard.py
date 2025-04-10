@@ -9,6 +9,9 @@ st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 # Load dataset
 day_df = pd.read_csv("dashboard/day_cleaned.csv")
 hour_df = pd.read_csv("dashboard/hour_cleaned.csv")
+# Format tanggal
+day_df['dateday'] = pd.to_datetime(day_df['dateday'])
+
 # --- Tren Penjualan Produk X (6 Bulan Terakhir) ---
 st.subheader("Tren Penggunaan Sepeda (6 Bulan Terakhir)")
 six_months_ago = day_df['dateday'].max() - pd.DateOffset(months=6)
