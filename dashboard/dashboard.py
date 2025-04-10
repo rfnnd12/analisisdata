@@ -7,8 +7,8 @@ import seaborn as sns
 st.title("Dashboard Analisis Data")
 
 # Muat dataset day_df dan hour_df
-day_df = pd.read_csv("Dashboard/day_clean.csv")
-hour_df = pd.read_csv("Dashboard/hour_clean.csv")
+day_df = pd.read_csv("dashboard/day_clean.csv")
+hour_df = pd.read_csv("dashboard/hour_clean.csv")
 
 # Menampilkan header
 st.title("Dashboard Analisis Data Bike Sharing")
