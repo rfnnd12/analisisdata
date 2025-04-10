@@ -12,8 +12,6 @@ st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 day_df = pd.read_csv("dashboard/day_clean.csv")
 hour_df = pd.read_csv("dashboard/hour_clean.csv")
 
-# Format tanggal
-day_df['dateday'] = pd.to_datetime(day_df['dateday'])
 
 # --- Tren Penjualan Produk X (6 Bulan Terakhir) ---
 st.subheader("Tren Penggunaan Sepeda (6 Bulan Terakhir)")
