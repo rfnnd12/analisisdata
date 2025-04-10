@@ -1,43 +1,44 @@
 import streamlit as st
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-# Membaca data
-data = pd.read_csv('data/data_1.csv')   # Pastikan file CSV berada dalam folder yang sama
+# Judul aplikasi
+st.title("Dashboard Analisis Data")
 
-# Menampilkan header
-st.title("Dashboard Analisis Data Bike Sharing")
-st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
+# Memuat dataset
+@st.cache_data
+def load_data():
+    df = pd.read_csv("data/data_1.csv")  # Ganti dengan nama file yang kamu pakai
+    return df
 
-# Menampilkan data yang dibaca
-st.subheader("Data Head")
-st.write(data.head())
+df = load_data()
 
-# Menampilkan analisis deskriptif
-st.subheader("Statistik Deskriptif")
-st.write(data.describe())
+# Tampilkan data awal
+st.subheader("Preview Dataset")
+st.write(df.head())
 
-# Visualisasi Korelasi
-st.subheader("Heatmap Korelasi")
-# Select only numeric columns for calculating the correlation
-numeric_data = data.select_dtypes(include=['number'])
-corr = numeric_data.corr()  # Menghitung korelasi antara kolom numerik
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.heatmap(corr, annot=True, cmap='coolwarm', ax=ax)
+# Ringkasan statistik
+st.subheader("Ringkasan Statistik")
+st.write(df.describe())
+
+# Filter kolom
+st.sidebar.subheader("Filter Data")
+selected_column = st.sidebar.selectbox("Pilih Kolom untuk Visualisasi", df.columns)
+
+# Visualisasi Distribusi
+st.subheader(f"Distribusi Data: {selected_column}")
+fig, ax = plt.subplots()
+sns.histplot(df[selected_column].dropna(), kde=True, ax=ax)
 st.pyplot(fig)
 
-# Visualisasi lainnya (contoh: scatter plot)
-st.subheader("Scatter Plot: Temperature vs Count")
-fig2, ax2 = plt.subplots(figsize=(10, 6))
-sns.scatterplot(data=data, x='temp', y='cnt', hue='season', palette='viridis', ax=ax2)
-st.pyplot(fig2)
+# Korelasi antar variabel numerik
+if st.checkbox("Tampilkan Korelasi Variabel Numerik"):
+    st.subheader("Matriks Korelasi")
+    corr = df.corr(numeric_only=True)
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax)
+    st.pyplot(fig)
 
-# Analisis tambahan: menambahkan filter waktu (misalnya filter berdasarkan 'hour')
-st.subheader("Analisis Berdasarkan Jam")
-hour_filter = st.slider("Pilih Jam", min_value=0, max_value=23, value=12)
-filtered_data = data[data['hr'] == hour_filter]
-st.write(f"Data untuk Jam {hour_filter}:")
-st.write(filtered_data)
-
-
+# Footer
+st.caption("Dibuat oleh [Nama Kamu] - Proyek Analisis Data Dicoding")
