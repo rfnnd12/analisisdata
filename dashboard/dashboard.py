@@ -21,9 +21,14 @@ def load_data():
 day_df, hour_df = load_data()
 
 # ================== 1. Tren Penggunaan Sepeda ==================
-st.subheader("📈 Tren Penggunaan Sepeda (Sesuai Filter)")
+st.markdown("---")
+st.subheader("📈 Tren Penggunaan Sepeda (6 Bulan Terakhir)")
+
+six_months_ago = day_df['dateday'].max() - pd.DateOffset(months=6)
+filtered_data = day_df[day_df['dateday'] >= six_months_ago]
+
 fig, ax = plt.subplots(figsize=(10, 4))
-ax.plot(filtered_df['dateday'], filtered_df['count'], color='teal')
+ax.plot(filtered_data['dateday'], filtered_data['count'], color='teal')
 ax.set_title('Tren Penggunaan Sepeda')
 ax.set_xlabel('Tanggal')
 ax.set_ylabel('Jumlah Penggunaan')
