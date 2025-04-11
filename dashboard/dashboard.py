@@ -21,14 +21,9 @@ def load_data():
 day_df, hour_df = load_data()
 
 # ================== 1. Tren Penggunaan Sepeda ==================
-st.markdown("---")
-st.subheader("📈 Tren Penggunaan Sepeda (6 Bulan Terakhir)")
-
-six_months_ago = day_df['dateday'].max() - pd.DateOffset(months=6)
-filtered_data = day_df[day_df['dateday'] >= six_months_ago]
-
+st.subheader("📈 Tren Penggunaan Sepeda (Sesuai Filter)")
 fig, ax = plt.subplots(figsize=(10, 4))
-ax.plot(filtered_data['dateday'], filtered_data['count'], color='teal')
+ax.plot(filtered_df['dateday'], filtered_df['count'], color='teal')
 ax.set_title('Tren Penggunaan Sepeda')
 ax.set_xlabel('Tanggal')
 ax.set_ylabel('Jumlah Penggunaan')
@@ -68,6 +63,31 @@ ax3.set_xlabel('Musim')
 ax3.set_ylabel('Jumlah Rental')
 ax3.grid(axis='y')
 st.pyplot(fig3)
+
+# ================== Filter Interaktif ==================
+st.sidebar.header("🔎 Filter Data")
+
+# Filter Musim
+season_options = {
+    1: 'Spring 🌼',
+    2: 'Summer ☀️',
+    3: 'Fall 🍂',
+    4: 'Winter ❄️'
+}
+selected_season = st.sidebar.selectbox("Pilih Musim", options=list(season_options.keys()), format_func=lambda x: season_options[x])
+
+# Filter Rentang Tanggal
+min_date = day_df['dateday'].min()
+max_date = day_df['dateday'].max()
+date_range = st.sidebar.date_input("Pilih Rentang Tanggal", [min_date, max_date], min_value=min_date, max_value=max_date)
+
+# Terapkan filter
+filtered_df = day_df[
+    (day_df['season'] == selected_season) &
+    (day_df['dateday'] >= pd.to_datetime(date_range[0])) &
+    (day_df['dateday'] <= pd.to_datetime(date_range[1]))
+]
+
 
 # --- Kesimpulan ---
 st.markdown("---")
