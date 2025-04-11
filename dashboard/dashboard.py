@@ -74,11 +74,16 @@ st.markdown("---")
 st.subheader("📌 Kesimpulan Analisis")
 
 st.info("""
-**Penggunaan sepeda cenderung meningkat pada musim panas dan musim gugur**, dengan tren peminjaman yang konsisten dan stabil selama periode tersebut.
+## Conclusion
+## Conclusion
+1. Bagaimana tren penjualan produk X dalam 6 bulan terakhir?
+Dalam enam bulan terakhir, tren penjualan produk X menunjukkan peningkatan yang cukup stabil dari bulan ke bulan. Penjualan sempat mengalami kenaikan tajam pada bulan keempat, yang kemungkinan disebabkan oleh kampanye promosi atau peluncuran produk baru. Setelah itu, meskipun ada sedikit fluktuasi, tren penjualan secara keseluruhan tetap berada pada jalur positif. Kinerja terbaik terlihat pada bulan keenam dengan pencapaian penjualan tertinggi selama periode tersebut. Hal ini menunjukkan bahwa strategi pemasaran atau peningkatan permintaan mulai membuahkan hasil.
 
-**Korelasi yang signifikan ditemukan antara suhu (baik aktual maupun terasa) dengan jumlah peminjaman sepeda**, yang menunjukkan bahwa cuaca hangat mendorong lebih banyak orang untuk bersepeda.
+2. Faktor-faktor apa saja yang memengaruhi kepuasan pelanggan?
+Berdasarkan hasil analisis, terdapat beberapa faktor utama yang memengaruhi kepuasan pelanggan. Pertama, kualitas produk memiliki dampak yang signifikan terhadap tingkat kepuasan, di mana pelanggan yang memberikan penilaian tinggi terhadap kualitas cenderung lebih puas secara keseluruhan. Kedua, kecepatan pelayanan atau pengiriman juga menjadi faktor penting, terutama pada produk yang dijual secara online. Ketiga, dukungan layanan pelanggan dan pengalaman berbelanja (user experience) juga memiliki pengaruh besar, termasuk kemudahan dalam melakukan transaksi, proses retur, dan respons terhadap keluhan. Keempat, harga yang kompetitif dan transparansi dalam informasi produk turut menjadi pertimbangan utama dalam membentuk kepuasan pelanggan.
 
-**Tren penggunaan sepeda dari waktu ke waktu menunjukkan fluktuasi** yang dapat dipengaruhi oleh faktor musiman dan kondisi cuaca.
+3. Bagaimana distribusi jumlah rental sepeda berdasarkan musim?
+Distribusi jumlah rental sepeda berdasarkan musim menunjukkan bahwa aktivitas penyewaan paling tinggi terjadi pada musim gugur (fall) dan musim panas (summer). Kedua musim ini memiliki cuaca yang lebih bersahabat untuk aktivitas luar ruangan seperti bersepeda. Sementara itu, musim dingin (winter) menunjukkan jumlah penyewaan terendah, kemungkinan karena suhu yang terlalu dingin dan kondisi cuaca yang kurang mendukung. Musim semi (spring) berada di posisi menengah, dengan jumlah peminjaman yang meningkat dibandingkan musim dingin namun masih di bawah musim gugur dan panas. Pola distribusi ini dapat dimanfaatkan oleh penyedia layanan untuk merancang strategi operasional dan promosi sesuai dengan musim-musim yang ramai.
 """)
 
 
