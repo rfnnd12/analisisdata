@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import ipywidgets as widgets
+from IPython.display import display
 
 # Konfigurasi halaman
 st.set_page_config(page_title="Dashboard Bike Sharing", layout="centered")
