@@ -20,8 +20,6 @@ def load_data():
 
 hour_df = load_data()
 
-import ipywidgets as widgets
-     from IPython.display import display
 
      # Widget untuk memilih filter
      filter_type_widget = widgets.Dropdown(options=['hour', 'dayofweek', 'month'], description='Filter Berdasarkan')
