@@ -22,9 +22,6 @@ def load_data():
 hour_df = load_data()
 
 
-     # Widget untuk memilih filter
-     filter_type_widget = widgets.Dropdown(options=['hour', 'dayofweek', 'month'], description='Filter Berdasarkan')
-     filter_value_widget = widgets.IntSlider(min=1, max=24, description='Nilai Filter')
 
      # Fungsi untuk menampilkan histogram
      def plot_distribution(filter_type, filter_value):
