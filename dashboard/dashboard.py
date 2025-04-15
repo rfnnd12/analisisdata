@@ -19,48 +19,7 @@ def load_data():
     day_df['dateday'] = pd.to_datetime(day_df['dateday'])
     return day_df, hour_df
 
-day_df, hour_df = load_data()
-
-     # Widget untuk memilih filter
-     filter_type_widget = widgets.Dropdown(options=['hour', 'dayofweek', 'month'], description='Filter Berdasarkan')
-     filter_value_widget = widgets.IntSlider(min=1, max=24, description='Nilai Filter')
-
-     # Fungsi untuk menampilkan histogram
-     def plot_distribution(filter_type, filter_value):
-         filtered_data = hour_df[hour_df[filter_type] == filter_value]['count']
-         plt.figure(figsize=(8, 6))
-         plt.hist(filtered_data, bins=10)
-         plt.title(f'Distribusi Peminjaman Sepeda ({filter_type} = {filter_value})')
-         plt.xlabel('Jumlah Peminjaman')
-         plt.ylabel('Frekuensi')
-         plt.show()
-
-     # Menampilkan widget dan menghubungkannya dengan fungsi plot_distribution
-     widgets.interactive(plot_distribution, filter_type=filter_type_widget, filter_value=filter_value_widget)
-# ================== Filter Interaktif ==================
-st.sidebar.header("🔎 Filter Data")
-
-# Filter Musim
-season_options = {
-    1: 'Spring 🌼',
-    2: 'Summer ☀️',
-    3: 'Fall 🍂',
-    4: 'Winter ❄️'
-}
-selected_season = st.sidebar.selectbox("Pilih Musim", options=list(season_options.keys()), format_func=lambda x: season_options[x])
-
-# Filter Rentang Tanggal
-min_date = day_df['dateday'].min()
-max_date = day_df['dateday'].max()
-date_range = st.sidebar.date_input("Pilih Rentang Tanggal", [min_date, max_date], min_value=min_date, max_value=max_date)
-
-# Terapkan filter
-filtered_df = day_df[
-    (day_df['season'] == selected_season) &
-    (day_df['dateday'] >= pd.to_datetime(date_range[0])) &
-    (day_df['dateday'] <= pd.to_datetime(date_range[1]))
-]
-
+hour_df = load_data()
 
 # --- Kesimpulan ---
 st.markdown("---")
