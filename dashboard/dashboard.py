@@ -1,43 +1,72 @@
 import streamlit as st
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-# Membaca data
-data = pd.read_csv('C:/Users/ASUS/Downloads/Bike-sharing-dataset/hour.csv')  # Pastikan file CSV berada dalam folder yang sama
+# Fungsi untuk memuat data dengan caching agar tidak membebani setiap kali interaksi
+@st.cache_data
+def load_data():
+    # Sesuaikan path dan nama file dataset sesuai struktur proyek
+    df = pd.read_csv('data/main_data.csv')
+    
+    # Pastikan kolom tanggal dikonversi ke format datetime
+    if 'date' in df.columns:
+        df['date'] = pd.to_datetime(df['date'])
+    return df
 
-# Menampilkan header
-st.title("Dashboard Analisis Data Bike Sharing")
-st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
+# Memuat data
+data = load_data()
 
-# Menampilkan data yang dibaca
-st.subheader("Data Head")
-st.write(data.head())
+st.title("Dashboard Analisis Data")
+st.write("Dashboard ini menyajikan hasil analisis data secara interaktif.")
 
-# Menampilkan analisis deskriptif
-st.subheader("Statistik Deskriptif")
-st.write(data.describe())
+# Sidebar: Filter berdasarkan rentang tanggal
+if 'date' in data.columns:
+    st.sidebar.header("Filter Berdasarkan Tanggal")
+    min_date = data['date'].min()
+    max_date = data['date'].max()
 
-# Visualisasi Korelasi
-st.subheader("Heatmap Korelasi")
-# Select only numeric columns for calculating the correlation
-numeric_data = data.select_dtypes(include=['number'])
-corr = numeric_data.corr()  # Menghitung korelasi antara kolom numerik
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.heatmap(corr, annot=True, cmap='coolwarm', ax=ax)
-st.pyplot(fig)
+    # Menggunakan st.date_input untuk memilih rentang tanggal
+    date_range = st.sidebar.date_input("Pilih rentang tanggal", [min_date, max_date])
+    if len(date_range) == 2:
+        start_date, end_date = date_range
+        start_date = pd.to_datetime(start_date)
+        end_date = pd.to_datetime(end_date)
+        # Filter data berdasarkan rentang tanggal
+        data = data[(data['date'] >= start_date) & (data['date'] <= end_date)]
+    st.write(f"Jumlah data setelah filter tanggal: {data.shape[0]}")
 
-# Visualisasi lainnya (contoh: scatter plot)
-st.subheader("Scatter Plot: Temperature vs Count")
-fig2, ax2 = plt.subplots(figsize=(10, 6))
-sns.scatterplot(data=data, x='temp', y='cnt', hue='season', palette='viridis', ax=ax2)
-st.pyplot(fig2)
+# Sidebar: Contoh fitur filter tambahan (misalnya filtering berdasarkan kategori)
+if 'kategori' in data.columns:
+    st.sidebar.header("Filter Berdasarkan Kategori")
+    kategori_list = st.sidebar.multiselect("Pilih Kategori", options=data['kategori'].unique())
+    if kategori_list:
+        data = data[data['kategori'].isin(kategori_list)]
+    st.write(f"Jumlah data setelah filter kategori: {data.shape[0]}")
 
-# Analisis tambahan: menambahkan filter waktu (misalnya filter berdasarkan 'hour')
-st.subheader("Analisis Berdasarkan Jam")
-hour_filter = st.slider("Pilih Jam", min_value=0, max_value=23, value=12)
-filtered_data = data[data['hr'] == hour_filter]
-st.write(f"Data untuk Jam {hour_filter}:")
-st.write(filtered_data)
+# Visualisasi 1: Contoh visualisasi data berdasarkan tanggal (misalnya total transaksi per hari)
+if 'transaksi' in data.columns and 'date' in data.columns:
+    st.subheader("Jumlah Transaksi Harian")
+    # Mengelompokkan data berdasarkan tanggal
+    daily_sum = data.groupby(data['date'].dt.date)['transaksi'].sum().reset_index()
+    
+    # Membuat plot
+    fig, ax = plt.subplots()
+    ax.plot(daily_sum['date'], daily_sum['transaksi'], marker='o')
+    ax.set_title("Jumlah Transaksi per Hari")
+    ax.set_xlabel("Tanggal")
+    ax.set_ylabel("Total Transaksi")
+    plt.xticks(rotation=45)
+    st.pyplot(fig)
+else:
+    st.write("Data tidak menyediakan informasi transaksi untuk divisualisasikan.")
 
+# Visualisasi 2: Contoh visualisasi distribusi kategori (jika kolom 'kategori' tersedia)
+if 'kategori' in data.columns:
+    st.subheader("Distribusi Kategori")
+    fig2, ax2 = plt.subplots()
+    sns.countplot(x='kategori', data=data, ax=ax2, palette="viridis")
+    ax2.set_title("Frekuensi Kategori")
+    st.pyplot(fig2)
 
+st.write("Dashboard ini menyediakan filter interaktif yang memungkinkan pengguna melihat data yang relevan berdasarkan tanggal atau kategori.")
