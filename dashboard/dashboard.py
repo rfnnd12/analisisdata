@@ -20,6 +20,26 @@ def load_data():
 
 hour_df = load_data()
 
+import ipywidgets as widgets
+     from IPython.display import display
+
+     # Widget untuk memilih filter
+     filter_type_widget = widgets.Dropdown(options=['hour', 'dayofweek', 'month'], description='Filter Berdasarkan')
+     filter_value_widget = widgets.IntSlider(min=1, max=24, description='Nilai Filter')
+
+     # Fungsi untuk menampilkan histogram
+     def plot_distribution(filter_type, filter_value):
+         filtered_data = hour_df[hour_df[filter_type] == filter_value]['count']
+         plt.figure(figsize=(8, 6))
+         plt.hist(filtered_data, bins=10)
+         plt.title(f'Distribusi Peminjaman Sepeda ({filter_type} = {filter_value})')
+         plt.xlabel('Jumlah Peminjaman')
+         plt.ylabel('Frekuensi')
+         plt.show()
+
+     # Menampilkan widget dan menghubungkannya dengan fungsi plot_distribution
+     widgets.interactive(plot_distribution, filter_type=filter_type_widget, filter_value=filter_value_widget)
+
 # --- Kesimpulan ---
 st.markdown("---")
 st.subheader("📌 Kesimpulan Analisis")
