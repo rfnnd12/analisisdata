@@ -21,16 +21,7 @@ def load_data():
 
 hour_df = load_data()
 
-
-    plt.figure(figsize=(12, 6))
-    plt.plot(filtered_data['dateday'], filtered_data['count'])
-    plt.title('Tren Peminjaman Sepeda')
-    plt.xlabel('Tanggal')
-    plt.ylabel('Jumlah Peminjaman')
-    plt.grid(True)
-    plt.show()
-
-
+# Define the plot_trend function
 def plot_trend(start_date=None, end_date=None):
     if start_date is None or end_date is None:
         # If no dates are provided, use the full range
@@ -41,6 +32,7 @@ def plot_trend(start_date=None, end_date=None):
         end_date = pd.to_datetime(end_date)
         filtered_data = hour_df[(hour_df['dateday'] >= start_date) & (hour_df['dateday'] <= end_date)]
 
+    # Plot the trend
     plt.figure(figsize=(12, 6))
     plt.plot(filtered_data['dateday'], filtered_data['count'])
     plt.title('Tren Peminjaman Sepeda')
@@ -50,20 +42,15 @@ def plot_trend(start_date=None, end_date=None):
     plt.show()
 
 # Menampilkan widget dan menghubungkannya dengan fungsi plot_trend,
-# with initial values for start_date and end_date set to None
 widgets.interactive(plot_trend,
                     start_date=widgets.DatePicker(value=None, description='Tanggal Mulai'),
                     end_date=widgets.DatePicker(value=None, description='Tanggal Akhir'))
 
-# with initial values for start_date and end_date set to None
-widgets.interactive(plot_trend,
-                    start_date=widgets.DatePicker(value=None, description='Tanggal Mulai'),
-                    end_date=widgets.DatePicker(value=None, description='Tanggal Akhir'))
 # --- Kesimpulan ---
 st.markdown("---")
 st.subheader("📌 Kesimpulan Analisis")
 
-st.info("""
+st.info(""" 
 ## Conclusion
 1. Bagaimana tren penjualan produk X dalam 6 bulan terakhir?
 Dalam enam bulan terakhir, tren penjualan produk X menunjukkan peningkatan yang cukup stabil dari bulan ke bulan. Penjualan sempat mengalami kenaikan tajam pada bulan keempat, yang kemungkinan disebabkan oleh kampanye promosi atau peluncuran produk baru. Setelah itu, meskipun ada sedikit fluktuasi, tren penjualan secara keseluruhan tetap berada pada jalur positif. Kinerja terbaik terlihat pada bulan keenam dengan pencapaian penjualan tertinggi selama periode tersebut. Hal ini menunjukkan bahwa strategi pemasaran atau peningkatan permintaan mulai membuahkan hasil.
@@ -74,7 +61,6 @@ Berdasarkan hasil analisis, terdapat beberapa faktor utama yang memengaruhi kepu
 3. Bagaimana distribusi jumlah rental sepeda berdasarkan musim?
 Distribusi jumlah rental sepeda berdasarkan musim menunjukkan bahwa aktivitas penyewaan paling tinggi terjadi pada musim gugur (fall) dan musim panas (summer). Kedua musim ini memiliki cuaca yang lebih bersahabat untuk aktivitas luar ruangan seperti bersepeda. Sementara itu, musim dingin (winter) menunjukkan jumlah penyewaan terendah, kemungkinan karena suhu yang terlalu dingin dan kondisi cuaca yang kurang mendukung. Musim semi (spring) berada di posisi menengah, dengan jumlah peminjaman yang meningkat dibandingkan musim dingin namun masih di bawah musim gugur dan panas. Pola distribusi ini dapat dimanfaatkan oleh penyedia layanan untuk merancang strategi operasional dan promosi sesuai dengan musim-musim yang ramai.
 """)
-
 
 # ================== Footer ==================
 st.markdown("---")
