@@ -22,17 +22,6 @@ def load_data():
 hour_df = load_data()
 
 
-
-def plot_trend(start_date=None, end_date=None):
-    if start_date is None or end_date is None:
-        # If no dates are provided, use the full range
-        filtered_data = hour_df
-    else:
-        # Convert start_date and end_date to datetime64[ns]
-        start_date = pd.to_datetime(start_date)
-        end_date = pd.to_datetime(end_date)
-        filtered_data = hour_df[(hour_df['dateday'] >= start_date) & (hour_df['dateday'] <= end_date)]
-
     plt.figure(figsize=(12, 6))
     plt.plot(filtered_data['dateday'], filtered_data['count'])
     plt.title('Tren Peminjaman Sepeda')
