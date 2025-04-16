@@ -10,8 +10,14 @@ st.set_page_config(page_title="Dashboard Bike Sharing", layout="centered")
 st.title("🚲 Dashboard Analisis Data Bike Sharing")
 st.markdown("Analisis data *Bike Sharing* untuk memahami pola penggunaan sepeda dan faktor-faktor yang memengaruhinya.")
 
-# Load the cleaned dataset
-hour_df = pd.read_csv('/hour_cleaned.csv')
+import os
+
+# Cek apakah file ada
+if os.path.exists('hour_clean.csv'):
+    hour_df = pd.read_csv('hour_clean.csv')
+    print(hour_df.head())
+else:
+    print("File tidak ditemukan. Pastikan nama dan lokasi file sudah benar.")
 
 # Grouping data by season
 seasonal_distribution = hour_df.groupby('season')['count'].sum()
