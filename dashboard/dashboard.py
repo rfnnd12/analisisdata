@@ -10,50 +10,7 @@ st.set_page_config(page_title="Dashboard Bike Sharing", layout="centered")
 st.title("🚲 Dashboard Analisis Data Bike Sharing")
 st.markdown("Analisis data *Bike Sharing* untuk memahami pola penggunaan sepeda dan faktor-faktor yang memengaruhinya.")
 
-# Load the cleaned dataset
-hour_df = pd.read_csv('hour_clean.csv')
 
-# Cek kolom yang ada
-print("Kolom yang tersedia:", hour_df.columns)
-
-# Cek tipe data
-print("Tipe data setiap kolom:")
-print(hour_df.dtypes)
-
-# Pastikan kolom 'season' dan 'count' ada
-if 'season' in hour_df.columns and 'count' in hour_df.columns:
-    seasonal_distribution = hour_df.groupby('season')['count'].sum()
-    print(seasonal_distribution)
-else:
-    print("Kolom 'season' atau 'count' tidak ditemukan dalam DataFrame.")
-# Create a bar chart
-st.subheader("Distribusi Jumlah Rental Sepeda Berdasarkan Musim")
-plt.bar(seasonal_distribution.index, seasonal_distribution.values, color=['#FF9999', '#66B3FF', '#99FF99', '#FFCC99'])
-plt.xlabel('Musim')
-plt.ylabel('Jumlah Rental')
-plt.title('Jumlah Rental Sepeda per Musim')
-st.pyplot(plt)
-
-# Grouping data by hour
-hourly_distribution = hour_df.groupby('hour')['count'].sum()
-
-# Create a line chart
-st.subheader("Hubungan Antara Jam dan Jumlah Rental Sepeda")
-plt.plot(hourly_distribution.index, hourly_distribution.values, marker='o', color='purple')
-plt.xlabel('Jam')
-plt.ylabel('Jumlah Rental')
-plt.title('Jumlah Rental Sepeda per Jam')
-st.pyplot(plt)
-
-# Calculate correlation
-correlation = hour_df[['year', 'hour', 'count']].corr()
-
-# Create a heatmap
-st.subheader("Faktor-Faktor yang Mempengaruhi Jumlah Rental Sepeda")
-plt.figure(figsize=(8, 6))
-sns.heatmap(correlation, annot=True, cmap='coolwarm', fmt=".2f")
-plt.title('Korelasi antara Tahun, Jam, dan Jumlah Rental')
-st.pyplot(plt)
 # --- Kesimpulan ---
 st.markdown("---")
 st.subheader("📌 Kesimpulan Analisis")
