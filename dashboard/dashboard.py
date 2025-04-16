@@ -10,18 +10,22 @@ st.set_page_config(page_title="Dashboard Bike Sharing", layout="centered")
 st.title("🚲 Dashboard Analisis Data Bike Sharing")
 st.markdown("Analisis data *Bike Sharing* untuk memahami pola penggunaan sepeda dan faktor-faktor yang memengaruhinya.")
 
-import os
+# Load the cleaned dataset
+hour_df = pd.read_csv('hour_clean.csv')
 
-# Cek apakah file ada
-if os.path.exists('hour_clean.csv'):
-    hour_df = pd.read_csv('hour_clean.csv')
-    print(hour_df.head())
+# Cek kolom yang ada
+print("Kolom yang tersedia:", hour_df.columns)
+
+# Cek tipe data
+print("Tipe data setiap kolom:")
+print(hour_df.dtypes)
+
+# Pastikan kolom 'season' dan 'count' ada
+if 'season' in hour_df.columns and 'count' in hour_df.columns:
+    seasonal_distribution = hour_df.groupby('season')['count'].sum()
+    print(seasonal_distribution)
 else:
-    print("File tidak ditemukan. Pastikan nama dan lokasi file sudah benar.")
-
-# Grouping data by season
-seasonal_distribution = hour_df.groupby('season')['count'].sum()
-
+    print("Kolom 'season' atau 'count' tidak ditemukan dalam DataFrame.")
 # Create a bar chart
 st.subheader("Distribusi Jumlah Rental Sepeda Berdasarkan Musim")
 plt.bar(seasonal_distribution.index, seasonal_distribution.values, color=['#FF9999', '#66B3FF', '#99FF99', '#FFCC99'])
