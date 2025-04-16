@@ -30,7 +30,31 @@ hour_df = load_data()
     plt.grid(True)
     plt.show()
 
+
+def plot_trend(start_date=None, end_date=None):
+    if start_date is None or end_date is None:
+        # If no dates are provided, use the full range
+        filtered_data = hour_df
+    else:
+        # Convert start_date and end_date to datetime64[ns]
+        start_date = pd.to_datetime(start_date)
+        end_date = pd.to_datetime(end_date)
+        filtered_data = hour_df[(hour_df['dateday'] >= start_date) & (hour_df['dateday'] <= end_date)]
+
+    plt.figure(figsize=(12, 6))
+    plt.plot(filtered_data['dateday'], filtered_data['count'])
+    plt.title('Tren Peminjaman Sepeda')
+    plt.xlabel('Tanggal')
+    plt.ylabel('Jumlah Peminjaman')
+    plt.grid(True)
+    plt.show()
+
 # Menampilkan widget dan menghubungkannya dengan fungsi plot_trend,
+# with initial values for start_date and end_date set to None
+widgets.interactive(plot_trend,
+                    start_date=widgets.DatePicker(value=None, description='Tanggal Mulai'),
+                    end_date=widgets.DatePicker(value=None, description='Tanggal Akhir'))
+
 # with initial values for start_date and end_date set to None
 widgets.interactive(plot_trend,
                     start_date=widgets.DatePicker(value=None, description='Tanggal Mulai'),
