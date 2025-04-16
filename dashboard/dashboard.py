@@ -11,7 +11,7 @@ st.title("🚲 Dashboard Analisis Data Bike Sharing")
 st.markdown("Analisis data *Bike Sharing* untuk memahami pola penggunaan sepeda dan faktor-faktor yang memengaruhinya.")
 
 # Load the cleaned dataset
-hour_df = pd.read_csv('hour_cleaned.csv')
+hour_df = pd.read_csv('/hour_cleaned.csv')
 
 # Grouping data by season
 seasonal_distribution = hour_df.groupby('season')['count'].sum()
