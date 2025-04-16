@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import ipywidgets as widgets
-from IPython.display import display
 
 # Konfigurasi halaman
 st.set_page_config(page_title="Dashboard Bike Sharing", layout="centered")
@@ -12,40 +10,40 @@ st.set_page_config(page_title="Dashboard Bike Sharing", layout="centered")
 st.title("🚲 Dashboard Analisis Data Bike Sharing")
 st.markdown("Analisis data *Bike Sharing* untuk memahami pola penggunaan sepeda dan faktor-faktor yang memengaruhinya.")
 
-# Load data
-@st.cache_data
-def load_data():
-    hour_df = pd.read_csv("dashboard/hour_cleaned.csv")
-    hour_df['dateday'] = pd.to_datetime(hour_df['dateday'])
-    return hour_df
+# Load the cleaned dataset
+hour_df = pd.read_csv('hour_clean.csv')
 
-hour_df = load_data()
+# Grouping data by season
+seasonal_distribution = hour_df.groupby('season')['count'].sum()
 
-# Define the plot_trend function
-def plot_trend(start_date=None, end_date=None):
-    if start_date is None or end_date is None:
-        # If no dates are provided, use the full range
-        filtered_data = hour_df
-    else:
-        # Convert start_date and end_date to datetime64[ns]
-        start_date = pd.to_datetime(start_date)
-        end_date = pd.to_datetime(end_date)
-        filtered_data = hour_df[(hour_df['dateday'] >= start_date) & (hour_df['dateday'] <= end_date)]
+# Create a bar chart
+st.subheader("Distribusi Jumlah Rental Sepeda Berdasarkan Musim")
+plt.bar(seasonal_distribution.index, seasonal_distribution.values, color=['#FF9999', '#66B3FF', '#99FF99', '#FFCC99'])
+plt.xlabel('Musim')
+plt.ylabel('Jumlah Rental')
+plt.title('Jumlah Rental Sepeda per Musim')
+st.pyplot(plt)
 
-    # Plot the trend
-    plt.figure(figsize=(12, 6))
-    plt.plot(filtered_data['dateday'], filtered_data['count'])
-    plt.title('Tren Peminjaman Sepeda')
-    plt.xlabel('Tanggal')
-    plt.ylabel('Jumlah Peminjaman')
-    plt.grid(True)
-    plt.show()
+# Grouping data by hour
+hourly_distribution = hour_df.groupby('hour')['count'].sum()
 
-# Menampilkan widget dan menghubungkannya dengan fungsi plot_trend,
-widgets.interactive(plot_trend,
-                    start_date=widgets.DatePicker(value=None, description='Tanggal Mulai'),
-                    end_date=widgets.DatePicker(value=None, description='Tanggal Akhir'))
+# Create a line chart
+st.subheader("Hubungan Antara Jam dan Jumlah Rental Sepeda")
+plt.plot(hourly_distribution.index, hourly_distribution.values, marker='o', color='purple')
+plt.xlabel('Jam')
+plt.ylabel('Jumlah Rental')
+plt.title('Jumlah Rental Sepeda per Jam')
+st.pyplot(plt)
 
+# Calculate correlation
+correlation = hour_df[['year', 'hour', 'count']].corr()
+
+# Create a heatmap
+st.subheader("Faktor-Faktor yang Mempengaruhi Jumlah Rental Sepeda")
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title('Korelasi antara Tahun, Jam, dan Jumlah Rental')
+st.pyplot(plt)
 # --- Kesimpulan ---
 st.markdown("---")
 st.subheader("📌 Kesimpulan Analisis")
