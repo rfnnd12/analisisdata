@@ -16,8 +16,8 @@ st.markdown("Analisis data *Bike Sharing* untuk memahami pola penggunaan sepeda 
 @st.cache_data
 def load_data():
     hour_df = pd.read_csv("dashboard/hour_cleaned.csv")
-    day_df['dateday'] = pd.to_datetime(day_df['dateday'])
-    return day_df, hour_df
+    hour_df['dateday'] = pd.to_datetime(hour_df['dateday'])
+    return hour_df
 
 hour_df = load_data()
 
