@@ -9,17 +9,10 @@ hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada da
 # Sidebar untuk filter interaktif
 selected_season = st.sidebar.multiselect("Pilih Musim untuk Filter:", hour_df['season'].unique())
 selected_weather = st.sidebar.selectbox("Pilih Kondisi Cuaca untuk Filter:", hour_df['weather'].unique())
-selected_workingday = st.sidebar.selectbox("Pilih Hari Kerja atau Akhir Pekan:", ['Workingday', 'Weekend'])
 
 # Filter data berdasarkan pilihan dari sidebar
 filtered_df_season = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
 filtered_df_weather = filtered_df_season[filtered_df_season['weather'] == selected_weather]
-
-# Filter berdasarkan workingday (hari kerja atau akhir pekan)
-if selected_workingday == 'Workingday':
-    filtered_df_workingday = filtered_df_weather[filtered_df_weather['workingday'] == 1]
-else:
-    filtered_df_workingday = filtered_df_weather[filtered_df_weather['workingday'] == 0]
 
 # Business Question 1: Apa pengaruh Cuaca Terhadap Jumlah Penyewaan Sepeda?
 st.write("### Apakah hari dengan cuaca buruk seperti “Light Snow/Rain” atau “Severe Weather” menunjukkan penurunan signifikan pada jumlah penyewaan?")
@@ -35,7 +28,7 @@ st.pyplot(plt)
 
 # Business Question 2: Bagaimana tren penyewaan sepeda berbeda antara hari kerja (workingday) dan akhir pekan/hari libur?
 st.write("### Bagaimana tren penyewaan sepeda berbeda antara hari kerja (workingday) dan akhir pekan/hari libur?")
-hourly_rental_counts = filtered_df_workingday.groupby('hour')['count'].sum().reset_index()
+hourly_rental_counts = filtered_df_season.groupby('hour')['count'].sum().reset_index()
 
 # Plot
 plt.figure(figsize=(12, 6))
