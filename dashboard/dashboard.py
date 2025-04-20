@@ -41,6 +41,13 @@ plt.legend(title='Tipe Hari', labels=['Hari Kerja', 'Hari Libur'])
 # Menampilkan plot di Streamlit
 st.pyplot(plt)
 
+# **Menampilkan Data Head untuk Setiap Jam**
+# Mengelompokkan data berdasarkan jam
+hourly_data = hour_df.groupby(['hour'])['count'].sum().reset_index()
+
+# Menampilkan data head berdasarkan jam
+st.write("### Data Penyewaan per Jam (Head):")
+st.write(hourly_data.head())  # Menampilkan 5 data pertama berdasarkan jam
 
 # **Bagian untuk plot distribusi jumlah penyewaan berdasarkan jam per musim**
 # Memfilter data untuk distribusi musim menggunakan satu multiselect
