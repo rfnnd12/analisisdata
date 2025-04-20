@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # Membaca data
 hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada dalam folder yang sama
 
-# Business Question 1: Apakah hari dengan cuaca buruk seperti “Light Snow/Rain” atau “Severe Weather” menunjukkan penurunan signifikan pada jumlah penyewaan?
+# Business Question 1: Apa pengaruh Cuaca Terhadap Jumlah Penyewaan Sepeda?
 st.write("### Apakah hari dengan cuaca buruk seperti “Light Snow/Rain” atau “Severe Weather” menunjukkan penurunan signifikan pada jumlah penyewaan?")
 hour_df_grouped_weather = hour_df.groupby('weather')['count'].sum().reset_index()
 
