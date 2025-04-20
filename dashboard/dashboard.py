@@ -28,13 +28,12 @@ else:
 # Mengelompokkan data dan menghitung rata-rata 'cnt'
 rata_rata_penyewaan = filtered_df_holiday.groupby(['season', 'holiday', 'workingday'])['count'].mean().reset_index()
 
-# Membuat bar chart
+# Membuat bar chart dengan penyesuaian warna dan menonaktifkan error bars
 plt.figure(figsize=(12, 6))
-sns.barplot(x='season', y='count', hue='workingday', data=rata_rata_penyewaan)
+sns.barplot(x='season', y='count', hue='workingday', data=rata_rata_penyewaan, palette={0: "blue", 1: "orange"}, ci=None)  # Menetapkan warna manual untuk Hari Kerja dan Hari Libur
 plt.title(f'Rata-rata Jumlah Penyewaan Sepeda per Musim (Hari Kerja vs. Hari Libur) untuk Musim {", ".join(map(str, selected_season))}')
 plt.xlabel('Musim')
 plt.ylabel('Rata-rata Jumlah Penyewaan')
-plt.legend(title='Tipe Hari', labels=['Hari Kerja', 'Hari Libur'])
 
 # Menampilkan plot di Streamlit
 st.pyplot(plt)
