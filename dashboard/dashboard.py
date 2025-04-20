@@ -42,10 +42,11 @@ plt.legend(title='Tipe Hari', labels=['Hari Kerja', 'Hari Libur'])
 st.pyplot(plt)
 
 
-# **Bagian untuk multibox dan plot distribusi jumlah penyewaan berdasarkan jam per musim**
+# **Bagian untuk plot distribusi jumlah penyewaan berdasarkan jam per musim**
+# Memfilter data untuk distribusi musim menggunakan satu multiselect
 selected_season_for_distribution = st.sidebar.multiselect("Pilih Musim untuk Filter Distribusi:", hour_df['season'].unique(), default=hour_df['season'].unique())  # Filter distribusi musim
 
-# Memfilter data untuk distribusi musim
+# Memfilter data berdasarkan musim yang dipilih di multiselect
 filtered_df_season_for_distribution = hour_df[hour_df['season'].isin(selected_season_for_distribution)]  # Menggunakan .isin untuk beberapa musim
 
 # Mengelompokkan data dan menghitung jumlah penyewaan per jam per musim
