@@ -1,31 +1,74 @@
-import streamlit as st
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import plotly.express as px
 
-# Konfigurasi halaman
-st.set_page_config(page_title="Dashboard Bike Sharing", layout="centered")
+# Initialize the Dash app
+app = dash.Dash(__name__)
 
-# Judul utama
-st.title("🚲 Dashboard Analisis Data Bike Sharing")
-st.markdown("Analisis data *Bike Sharing* untuk memahami pola penggunaan sepeda dan faktor-faktor yang memengaruhinya.")
+# Load the data
+hour_df = pd.read_csv('path_to_your_bike_sharing_data.csv')  # Update with actual path to the dataset
+hour_df['dteday'] = pd.to_datetime(hour_df['dteday'])
 
+# Define layout
+app.layout = html.Div([
+    html.H1("Bike Sharing Dashboard"),
+    
+    # Dropdown to select the question to visualize
+    dcc.Dropdown(
+        id='business-question-dropdown',
+        options=[
+            {'label': 'Distribusi Jumlah Rental Sepeda Berdasarkan Musim', 'value': 'season'},
+            {'label': 'Hubungan Antara Jam dan Jumlah Rental Sepeda', 'value': 'hr'},
+            {'label': 'Faktor-Faktor yang Mempengaruhi Jumlah Rental Sepeda', 'value': 'factors'}
+        ],
+        value='season',
+        style={'width': '50%'}
+    ),
+    
+    # Graph for the plots
+    dcc.Graph(id='bike-rental-graph'),
+    
+    # Slider for selecting hours (only applicable for hour-based analysis)
+    dcc.Slider(
+        id='hour-slider',
+        min=0,
+        max=23,
+        step=1,
+        value=12,
+        marks={i: str(i) for i in range(24)},
+        style={'width': '50%'}
+    )
+])
 
-# --- Kesimpulan ---
-st.markdown("---")
-st.subheader("📌 Kesimpulan Analisis")
+# Define callback to update graph based on dropdown selection
+@app.callback(
+    Output('bike-rental-graph', 'figure'),
+    [Input('business-question-dropdown', 'value'),
+     Input('hour-slider', 'value')]
+)
+def update_graph(selected_question, selected_hour):
+    if selected_question == 'season':
+        # Plot distribution based on season
+        fig = px.histogram(hour_df, x='season', y='cnt', title="Jumlah Rental Sepeda Berdasarkan Musim")
+        return fig
+    
+    elif selected_question == 'hr':
+        # Plot relationship between hour and bike rental count
+        filtered_df = hour_df[hour_df['hr'] == selected_hour]
+        fig = px.scatter(filtered_df, x='dteday', y='cnt', title=f"Jumlah Rental Sepeda pada Jam {selected_hour}")
+        return fig
+    
+    elif selected_question == 'factors':
+        # Plot factors like temperature, humidity, and weather situation affecting rentals
+        fig = px.scatter(hour_df, x='temp', y='cnt', color='weathersit', title="Faktor yang Mempengaruhi Jumlah Rental Sepeda")
+        return fig
 
-st.info(""" 
-## Conclusion
-1. Bagaimana tren penjualan produk X dalam 6 bulan terakhir?
-Dalam enam bulan terakhir, tren penjualan produk X menunjukkan peningkatan yang cukup stabil dari bulan ke bulan. Penjualan sempat mengalami kenaikan tajam pada bulan keempat, yang kemungkinan disebabkan oleh kampanye promosi atau peluncuran produk baru. Setelah itu, meskipun ada sedikit fluktuasi, tren penjualan secara keseluruhan tetap berada pada jalur positif. Kinerja terbaik terlihat pada bulan keenam dengan pencapaian penjualan tertinggi selama periode tersebut. Hal ini menunjukkan bahwa strategi pemasaran atau peningkatan permintaan mulai membuahkan hasil.
-
-2. Faktor-faktor apa saja yang memengaruhi kepuasan pelanggan?
-Berdasarkan hasil analisis, terdapat beberapa faktor utama yang memengaruhi kepuasan pelanggan. Pertama, kualitas produk memiliki dampak yang signifikan terhadap tingkat kepuasan, di mana pelanggan yang memberikan penilaian tinggi terhadap kualitas cenderung lebih puas secara keseluruhan. Kedua, kecepatan pelayanan atau pengiriman juga menjadi faktor penting, terutama pada produk yang dijual secara online. Ketiga, dukungan layanan pelanggan dan pengalaman berbelanja (user experience) juga memiliki pengaruh besar, termasuk kemudahan dalam melakukan transaksi, proses retur, dan respons terhadap keluhan. Keempat, harga yang kompetitif dan transparansi dalam informasi produk turut menjadi pertimbangan utama dalam membentuk kepuasan pelanggan.
-
-3. Bagaimana distribusi jumlah rental sepeda berdasarkan musim?
-Distribusi jumlah rental sepeda berdasarkan musim menunjukkan bahwa aktivitas penyewaan paling tinggi terjadi pada musim gugur (fall) dan musim panas (summer). Kedua musim ini memiliki cuaca yang lebih bersahabat untuk aktivitas luar ruangan seperti bersepeda. Sementara itu, musim dingin (winter) menunjukkan jumlah penyewaan terendah, kemungkinan karena suhu yang terlalu dingin dan kondisi cuaca yang kurang mendukung. Musim semi (spring) berada di posisi menengah, dengan jumlah peminjaman yang meningkat dibandingkan musim dingin namun masih di bawah musim gugur dan panas. Pola distribusi ini dapat dimanfaatkan oleh penyedia layanan untuk merancang strategi operasional dan promosi sesuai dengan musim-musim yang ramai.
-""")
+# Run the app
+if __name__ == '__main__':
+    app.run_server(debug=True)
 
 # ================== Footer ==================
 st.markdown("---")
