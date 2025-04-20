@@ -26,7 +26,7 @@ sns.lineplot(x='hour', y='count', data=weekday_data, label='Hari Kerja')
 
 # Membuat line chart untuk akhir pekan
 sns.lineplot(x='hour', y='count', data=weekend_data, label='Akhir Pekan')
-plt.title(f'Distribusi Jumlah Penyewaan Sepeda Berdasarkan Jam ({selected_day_type})')
+plt.title(f'Distribusi Jumlah Penyewaan Sepeda Berdasarkan Jam )')
 plt.xlabel('Jam')
 plt.ylabel('Jumlah Penyewaan')
 plt.legend(title='Tipe Hari', labels=[selected_day_type])
