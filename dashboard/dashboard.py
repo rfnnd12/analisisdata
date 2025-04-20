@@ -123,6 +123,4 @@ st.markdown("""
    Penyewaan selama **bulan Mei hingga Agustus** terlihat lebih tinggi, mungkin karena cuaca yang lebih baik, **liburan musim panas**, dan peningkatan aktivitas luar ruangan.
 """)
 
-# Menambahkan kredit pembuat
-st.write("**Pembuat: Rafi Nadna**")
 
