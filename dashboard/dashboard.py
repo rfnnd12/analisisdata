@@ -24,20 +24,19 @@ plt.ylabel("Jumlah Penyewaan")
 st.pyplot(plt)
 
 
+
+# Membuat visualisasi tren penyewaan sepeda berdasarkan jam
 hourly_rental_counts = hour_df.groupby('hour')['count'].sum().reset_index()
 
-# Membuat visualisasi  tren penyewaan sepeda berbeda antara hari kerja (workingday) dan akhir pekan/hari libur
 plt.figure(figsize=(12, 6))
 sns.barplot(x='hour', y='count', data=hourly_rental_counts)
 plt.title('Pola Penyewaan Sepeda Berdasarkan Jam')
 plt.xlabel('Jam')
 plt.ylabel('Jumlah Penyewaan')
-plt.show()
-
+st.pyplot(plt)  # Use st.pyplot instead of plt.show()
 
 # Menghitung rata-rata jumlah penyewaan sepeda per musim
 rata_rata_penyewaan_per_musim = hour_df.groupby('season')['count'].mean().reset_index()
-
 
 # Membuat visualisasi perbandingan jumlah penyewaan sepeda di setiap musim
 plt.figure(figsize=(10, 6))
@@ -45,4 +44,4 @@ sns.barplot(x='season', y='count', data=rata_rata_penyewaan_per_musim)
 plt.title('Rata-rata Jumlah Penyewaan Sepeda per Musim')
 plt.xlabel('Musim')
 plt.ylabel('Rata-rata Jumlah Penyewaan')
-plt.show()
+st.pyplot(plt)  # Use st.pyplot instead of plt.show()
