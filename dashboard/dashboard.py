@@ -8,18 +8,6 @@ st.title("Dashboard Analisis Data Bike Sharing")
 st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 
 # Membaca data
-hour_df = pd.read_csv('dashboard/hour_clean.csv')
-
-import streamlit as st
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-# Menampilkan header
-st.title("Dashboard Analisis Data Bike Sharing")
-st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
-
-# Membaca data
 hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada dalam folder yang sama
 
 # Sidebar untuk filter interaktif
@@ -54,8 +42,7 @@ plt.legend(title='Tipe Hari', labels=['Hari Kerja', 'Hari Libur'])
 st.pyplot(plt)
 
 
-
-
+# **Bagian untuk plot distribusi jumlah penyewaan berdasarkan jam**
 # Mengelompokkan data dan menghitung jumlah penyewaan per jam untuk hari kerja dan akhir pekan
 hourly_rental_counts = hour_df.groupby(['hour', 'weekday'], observed=False)['count'].sum().reset_index()
 
@@ -67,14 +54,39 @@ weekend_data = hourly_rental_counts[hourly_rental_counts['weekday'].isin(['Sabtu
 
 # Membuat line chart untuk distribusi penyewaan sepeda berdasarkan jam
 plt.figure(figsize=(12, 6))
-sns.lineplot(x='hour', y='count', data=weekday_data, label='Hari Kerja')
+sns.lineplot(x='hour', y='count', data=weekday_data, label='Hari Kerja', color='blue')
 
 # Membuat line chart untuk akhir pekan
-sns.lineplot(x='hour', y='count', data=weekend_data, label='Akhir Pekan')
-plt.title(f'Distribusi Jumlah Penyewaan Sepeda Berdasarkan Jam )')
+sns.lineplot(x='hour', y='count', data=weekend_data, label='Akhir Pekan', color='orange')
+
+# Judul dan label sumbu
+plt.title(f'Distribusi Jumlah Penyewaan Sepeda Berdasarkan Jam (Hari Kerja vs Akhir Pekan)')
 plt.xlabel('Jam')
 plt.ylabel('Jumlah Penyewaan')
 plt.legend()
+plt.grid(True)
+
+# Menampilkan plot di Streamlit
+st.pyplot(plt)
+
+
+# **Bagian untuk multibox dan plot distribusi jumlah penyewaan berdasarkan jam per musim**
+selected_season_for_distribution = st.sidebar.multiselect("Pilih Musim untuk Filter Distribusi:", hour_df['season'].unique(), default=hour_df['season'].unique())  # Filter distribusi musim
+
+# Memfilter data untuk distribusi musim
+filtered_df_season_for_distribution = hour_df[hour_df['season'].isin(selected_season_for_distribution)]  # Menggunakan .isin untuk beberapa musim
+
+# Mengelompokkan data dan menghitung jumlah penyewaan per jam per musim
+hourly_rental_counts_for_distribution = filtered_df_season_for_distribution.groupby(['hour', 'season'])['count'].sum().reset_index()
+
+# Membuat line chart untuk distribusi jumlah penyewaan berdasarkan jam untuk musim tertentu
+plt.figure(figsize=(12, 6))
+sns.lineplot(x='hour', y='count', hue='season', data=hourly_rental_counts_for_distribution)
+
+plt.title('Distribusi Jumlah Penyewaan Sepeda per Musim Berdasarkan Jam')
+plt.xlabel('Jam')
+plt.ylabel('Jumlah Penyewaan')
+plt.legend(title='Musim')
 plt.grid(True)
 
 # Menampilkan plot di Streamlit
