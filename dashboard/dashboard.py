@@ -78,3 +78,22 @@ plt.grid(True)
 
 # Menampilkan plot di Streamlit
 st.pyplot(plt)
+
+
+# Menampilkan 5 baris pertama data hour_df
+display(hour_df.head())
+
+# Mengelompokkan data dan menghitung jumlah penyewaan per jam untuk setiap musim
+hourly_rental_counts = hour_df.groupby(['hour', 'season'], observed=False)['count'].sum().reset_index()
+
+# Memfilter data untuk musim semi
+spring_data = hourly_rental_counts[hourly_rental_counts['season'] == 'spring']
+
+# Memfilter data untuk musim panas
+summer_data = hourly_rental_counts[hourly_rental_counts['season'] == 'summer']
+
+# Memfilter data untuk musim gugur
+fall_data = hourly_rental_counts[hourly_rental_counts['season'] == 'fall']
+
+# Memfilter data untuk musim dingin
+winter_data
