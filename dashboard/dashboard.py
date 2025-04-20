@@ -11,32 +11,28 @@ st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada dalam folder yang sama
 
 # Sidebar untuk filter interaktif
-selected_season = st.sidebar.multiselect("Pilih Musim untuk Filter:", hour_df['season'].unique(), default=hour_df['season'].unique())  # Pilih musim
-selected_holiday = st.sidebar.multiselect("Pilih Hari Libur atau Hari Kerja:", ['Hari Libur', 'Hari Kerja'])  # Pilih hari libur atau kerja
+selected_day_type = st.sidebar.selectbox("Pilih Tipe Hari:", ['Hari Kerja', 'Akhir Pekan'])  # Pilih tipe hari
 
-# Filter data berdasarkan pilihan dari sidebar
-filtered_df_season = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
+# Mengelompokkan data dan menghitung jumlah penyewaan per jam
+hourly_rental_counts = hour_df.groupby(['hour', 'weekday'], observed=False)['count'].sum().reset_index()
 
-# Memastikan hanya mengambil data untuk Hari Libur atau Hari Kerja yang dipilih
-if 'Hari Libur' in selected_holiday and 'Hari Kerja' in selected_holiday:
-    filtered_df_holiday = filtered_df_season
-elif 'Hari Libur' in selected_holiday:
-    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 1]  # Ambil data hari libur
+# Memfilter data berdasarkan pilihan dari sidebar
+if selected_day_type == 'Hari Kerja':
+    # Memfilter data untuk hari kerja (Senin-Jumat)
+    plot_data = hourly_rental_counts[hourly_rental_counts['weekday'].isin(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'])]
 else:
-    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 0]  # Ambil data hari kerja
+    # Memfilter data untuk akhir pekan (Sabtu-Minggu)
+    plot_data = hourly_rental_counts[hourly_rental_counts['weekday'].isin(['Sabtu', 'Minggu'])]
 
-# Mengelompokkan data dan menghitung rata-rata 'cnt'
-rata_rata_penyewaan = filtered_df_holiday.groupby(['season', 'holiday', 'workingday'])['count'].mean().reset_index()
-
-# Membuat bar chart dengan penyesuaian warna dan menonaktifkan error bars
+# Membuat line chart untuk distribusi penyewaan sepeda berdasarkan jam
 plt.figure(figsize=(12, 6))
-sns.barplot(x='season', y='count', hue='workingday', data=rata_rata_penyewaan, palette={0: "blue", 1: "orange"}, ci=None)  # Menetapkan warna manual untuk Hari Kerja dan Hari Libur
-plt.title(f'Rata-rata Jumlah Penyewaan Sepeda per Musim (Hari Kerja vs. Hari Libur) untuk Musim {", ".join(map(str, selected_season))}')
-plt.xlabel('Musim')
-plt.ylabel('Rata-rata Jumlah Penyewaan')
+sns.lineplot(x='hour', y='count', data=plot_data, label=selected_day_type, color='blue')
 
-# Mengatur legenda agar lebih informatif
-plt.legend(title='Tipe Hari', labels=['Hari Kerja', 'Hari Libur'])
+plt.title(f'Distribusi Jumlah Penyewaan Sepeda Berdasarkan Jam ({selected_day_type})')
+plt.xlabel('Jam')
+plt.ylabel('Jumlah Penyewaan')
+plt.legend(title='Tipe Hari', labels=[selected_day_type])
+plt.grid(True)
 
 # Menampilkan plot di Streamlit
 st.pyplot(plt)
