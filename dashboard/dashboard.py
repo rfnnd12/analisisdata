@@ -18,14 +18,12 @@ selected_holiday = st.sidebar.multiselect("Pilih Hari Libur atau Hari Kerja:", [
 filtered_df_season = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
 
 # Memastikan hanya mengambil data untuk Hari Libur atau Hari Kerja yang dipilih
-if 'Hari Kerja' in selected_holiday and 'Hari Libur' in selected_holiday:
-    filtered_df_holiday = filtered_df_season  # Menampilkan keduanya jika keduanya dipilih
-elif 'Hari Kerja' in selected_holiday:
-    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 0]  # Hanya hari kerja
+if 'Hari Libur' in selected_holiday and 'Hari Kerja' in selected_holiday:
+    filtered_df_holiday = filtered_df_season
 elif 'Hari Libur' in selected_holiday:
-    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 1]  # Hanya hari libur
+    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 1]  # Ambil data hari libur
 else:
-    filtered_df_holiday = filtered_df_season  # Default jika tidak ada pilihan
+    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 0]  # Ambil data hari kerja
 
 # Mengelompokkan data dan menghitung rata-rata 'cnt'
 rata_rata_penyewaan = filtered_df_holiday.groupby(['season', 'holiday', 'workingday'])['count'].mean().reset_index()
