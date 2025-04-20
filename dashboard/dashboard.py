@@ -35,5 +35,8 @@ plt.title(f'Rata-rata Jumlah Penyewaan Sepeda per Musim (Hari Kerja vs. Hari Lib
 plt.xlabel('Musim')
 plt.ylabel('Rata-rata Jumlah Penyewaan')
 
+# Mengatur legenda agar lebih informatif
+plt.legend(title='Tipe Hari', labels=['Hari Kerja', 'Hari Libur'])
+
 # Menampilkan plot di Streamlit
 st.pyplot(plt)
