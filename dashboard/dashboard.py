@@ -12,16 +12,16 @@ hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada da
 
 # Sidebar untuk filter interaktif
 selected_season = st.sidebar.multiselect("Pilih Musim untuk Filter:", hour_df['season'].unique(), default=hour_df['season'].unique())  # Pilih musim
-selected_day_type = st.sidebar.multiselect("Pilih Tipe Hari:", ['Hari Kerja', 'Akhir Pekan'])  # Pilih Hari Kerja atau Akhir Pekan
+selected_day_type = st.sidebar.multiselect("Pilih Tipe Hari:", ['Hari Kerja', 'Hari Libur'])  # Pilih Hari Kerja atau Hari Libur
 
 # Filter data berdasarkan pilihan dari sidebar
 filtered_df_season = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
 
-# Memastikan hanya mengambil data untuk Hari Kerja atau Akhir Pekan yang dipilih
+# Memastikan hanya mengambil data untuk Hari Kerja atau Hari Libur yang dipilih
 if selected_day_type == 'Hari Kerja':
-    filtered_df_day = filtered_df_season[filtered_df_season['holiday'] == 0]  # Ambil data hari kerja
+    filtered_df_day = filtered_df_season[filtered_df_season['holiday'] == 0]  # Ambil data hari kerja (Senin-Jumat)
 else:
-    filtered_df_day = filtered_df_season[filtered_df_season['holiday'] == 1]  # Ambil data akhir pekan
+    filtered_df_day = filtered_df_season[filtered_df_season['holiday'] == 1]  # Ambil data hari libur (Sabtu-Minggu)
 
 # Mengelompokkan data dan menghitung rata-rata 'cnt'
 rata_rata_penyewaan = filtered_df_day.groupby(['season', 'holiday', 'workingday'])['count'].mean().reset_index()
