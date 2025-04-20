@@ -25,12 +25,13 @@ elif 'Hari Libur' in selected_holiday:
 else:
     filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 0]  # Ambil data hari kerja
 
+
 # **Plot Pertama**: Bar Chart Rata-rata Jumlah Penyewaan
 rata_rata_penyewaan = filtered_df_holiday.groupby(['season', 'holiday', 'workingday'])['count'].mean().reset_index()
 
 # Membuat bar chart dengan penyesuaian warna dan menonaktifkan error bars
 plt.figure(figsize=(12, 6))
-sns.barplot(x='season', y='count', hue='workingday', data=rata_rata_penyewaan, palette={0: "blue", 1: "orange"}, ci=None)  # Menetapkan warna manual untuk Hari Kerja dan Hari Libur
+sns.barplot(x='season', y='count', hue='workingday', data=rata_rata_penyewaan, palette={0: "blue", 1: "orange"}, ci=None)  
 plt.title(f'Rata-rata Jumlah Penyewaan Sepeda per Musim (Hari Kerja vs. Hari Libur) untuk Musim {", ".join(map(str, selected_season))}')
 plt.xlabel('Musim')
 plt.ylabel('Rata-rata Jumlah Penyewaan')
@@ -44,10 +45,7 @@ st.pyplot(plt)
 
 # **Plot Kedua**: Line Chart Distribusi Penyewaan per Jam
 # Memfilter data untuk distribusi musim menggunakan satu multiselect
-selected_season_for_distribution = st.sidebar.multiselect("Pilih Musim untuk Filter Distribusi:", hour_df['season'].unique(), default=hour_df['season'].unique())  # Filter distribusi musim
-
-# Memfilter data berdasarkan musim yang dipilih di multiselect
-filtered_df_season_for_distribution = hour_df[hour_df['season'].isin(selected_season_for_distribution)]  # Menggunakan .isin untuk beberapa musim
+filtered_df_season_for_distribution = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
 
 # Mengelompokkan data dan menghitung jumlah penyewaan per jam per musim
 hourly_rental_counts_for_distribution = filtered_df_season_for_distribution.groupby(['hour', 'season'])['count'].sum().reset_index()
