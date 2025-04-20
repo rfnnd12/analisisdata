@@ -41,27 +41,17 @@ plt.legend(title='Tipe Hari', labels=['Hari Kerja', 'Hari Libur'])
 # Menampilkan plot di Streamlit
 st.pyplot(plt)
 
-# **Menampilkan Data Head untuk Setiap Jam**
-# Mengelompokkan data berdasarkan jam
-hourly_data = hour_df.groupby(['hour'])['count'].sum().reset_index()
-
-# Menampilkan data head berdasarkan jam
-st.write("### Data Penyewaan per Jam (Head):")
-st.write(hourly_data.head())  # Menampilkan 5 data pertama berdasarkan jam
-
-# **Bagian untuk plot distribusi jumlah penyewaan berdasarkan jam per musim**
-# Memfilter data untuk distribusi musim menggunakan satu multiselect
-selected_season_for_distribution = st.sidebar.multiselect("Pilih Musim untuk Filter Distribusi:", hour_df['season'].unique(), default=hour_df['season'].unique())  # Filter distribusi musim
+#====================================================================================
 
 # Memfilter data berdasarkan musim yang dipilih di multiselect
-filtered_df_season_for_distribution = hour_df[hour_df['season'].isin(selected_season_for_distribution)]  # Menggunakan .isin untuk beberapa musim
+filtered_df_season_for_distribution = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
 
 # Mengelompokkan data dan menghitung jumlah penyewaan per jam per musim
 hourly_rental_counts_for_distribution = filtered_df_season_for_distribution.groupby(['hour', 'season'])['count'].sum().reset_index()
 
-# Membuat line chart untuk distribusi jumlah penyewaan berdasarkan jam untuk musim tertentu dengan warna yang sesuai
+# Membuat line chart untuk distribusi jumlah penyewaan berdasarkan jam untuk musim tertentu
 plt.figure(figsize=(12, 6))
-sns.lineplot(x='hour', y='count', hue='season', data=hourly_rental_counts_for_distribution, palette={"spring": "lightblue", "summer": "orange", "fall": "green", "winter": "red"})
+sns.lineplot(x='hour', y='count', hue='season', data=hourly_rental_counts_for_distribution)
 
 plt.title('Distribusi Jumlah Penyewaan Sepeda per Musim Berdasarkan Jam')
 plt.xlabel('Jam')
