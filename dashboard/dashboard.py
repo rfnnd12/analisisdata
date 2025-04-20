@@ -8,23 +8,22 @@ st.title("Dashboard Analisis Data Bike Sharing")
 st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 
 # Membaca data
-hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada dalam folder yang sama
+hour_df = pd.read_csv('dashboard/hour_clean.csv')  
 
 # Sidebar untuk filter interaktif
-selected_season = st.sidebar.multiselect("Pilih Musim untuk Filter:", hour_df['season'].unique(), default=hour_df['season'].unique())  # Pilih musim
-selected_holiday = st.sidebar.multiselect("Pilih Hari Libur atau Hari Kerja:", ['Hari Libur', 'Hari Kerja'])  # Pilih hari libur atau kerja
+selected_season = st.sidebar.multiselect("Pilih Musim untuk Filter:", hour_df['season'].unique(), default=hour_df['season'].unique()) 
+selected_holiday = st.sidebar.multiselect("Pilih Hari Libur atau Hari Kerja:", ['Hari Libur', 'Hari Kerja']) 
 
 # Filter data berdasarkan pilihan dari sidebar
-filtered_df_season = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
+filtered_df_season = hour_df[hour_df['season'].isin(selected_season)]  
 
 # Memastikan hanya mengambil data untuk Hari Libur atau Hari Kerja yang dipilih
 if 'Hari Libur' in selected_holiday and 'Hari Kerja' in selected_holiday:
     filtered_df_holiday = filtered_df_season
 elif 'Hari Libur' in selected_holiday:
-    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 1]  # Ambil data hari libur
+    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 1]  
 else:
-    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 0]  # Ambil data hari kerja
-
+    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 0]  
 
 # **Plot Pertama**: Bar Chart Rata-rata Jumlah Penyewaan
 rata_rata_penyewaan = filtered_df_holiday.groupby(['season', 'holiday', 'workingday'])['count'].mean().reset_index()
@@ -68,30 +67,25 @@ st.pyplot(plt)
 
 # **Plot Ketiga**: Box Plot Pengaruh Cuaca terhadap Jumlah Penyewaan
 # Sidebar untuk filter interaktif
-selected_months = st.sidebar.multiselect("Pilih Bulan untuk Filter:", hour_df['month'].unique(), default=hour_df['month'].unique())  # Pilih bulan
-selected_weather = st.sidebar.multiselect("Pilih Kondisi Cuaca:", hour_df['weather'].unique(), default=hour_df['weather'].unique())  # Pilih kondisi cuaca
+selected_months = st.sidebar.multiselect("Pilih Bulan untuk Filter:", hour_df['month'].unique(), default=hour_df['month'].unique()) 
+selected_weather = st.sidebar.multiselect("Pilih Kondisi Cuaca:", hour_df['weather'].unique(), default=hour_df['weather'].unique())  
 
 # Memfilter data berdasarkan pilihan dari sidebar
-filtered_df_month = hour_df[hour_df['month'].isin(selected_months)]  # Filter berdasarkan bulan
-filtered_df_weather = filtered_df_month[filtered_df_month['weather'].isin(selected_weather)]  # Filter berdasarkan cuaca
+filtered_df_month = hour_df[hour_df['month'].isin(selected_months)] 
+filtered_df_weather = filtered_df_month[filtered_df_month['weather'].isin(selected_weather)]  
 
 # Menambahkan judul per plot
 st.write("### Pengaruh Kondisi Cuaca terhadap Jumlah Penyewaan Sepeda pada Bulan Tertentu")
 
 # Membuat box plot untuk distribusi jumlah penyewaan sepeda per bulan dan cuaca
 plt.figure(figsize=(12, 6))
-sns.boxplot(x='month', y='count', hue='weather', data=filtered_df_weather)  # Menggunakan filtered_df_weather
-
+sns.boxplot(x='month', y='count', hue='weather', data=filtered_df_weather)  
 plt.xlabel('Bulan')
 plt.ylabel('Jumlah Penyewaan Sepeda')
 plt.legend(title='Kondisi Cuaca')
 
 # Menampilkan plot di Streamlit
 st.pyplot(plt)
-
-
-
-import streamlit as st
 
 # Menampilkan judul dan kesimpulan
 st.write("### Conclusion")
