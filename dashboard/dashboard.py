@@ -10,9 +10,6 @@ st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 # Membaca data
 hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada dalam folder yang sama
 
-# Sidebar untuk filter interaktif
-selected_day_type = st.sidebar.selectbox("Pilih Tipe Hari:", ['Hari Kerja', 'Akhir Pekan'])  # Pilih tipe hari
-
 # Mengelompokkan data dan menghitung jumlah penyewaan per jam
 hourly_rental_counts = hour_df.groupby(['hour', 'weekday'], observed=False)['count'].sum().reset_index()
 
