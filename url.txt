@@ -1,1 +1,1 @@
-https://analysisbikerafi.streamlit.app/
+https://bikeanalysisrafi.streamlit.app/
