@@ -79,3 +79,6 @@ plt.grid(True)
 # Menampilkan plot di Streamlit
 st.pyplot(plt)
 
+
+st.write("### Data Penyewaan per Jam (Head):")
+st.write(hourly_data.head()) 
