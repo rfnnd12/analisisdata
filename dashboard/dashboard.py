@@ -12,27 +12,24 @@ hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada da
 
 # Sidebar untuk filter interaktif
 selected_season = st.sidebar.multiselect("Pilih Musim untuk Filter:", hour_df['season'].unique(), default=hour_df['season'].unique())  # Pilih musim
-selected_holiday = st.sidebar.multiselect("Pilih Hari Libur atau Hari Kerja:", ['Hari Libur', 'Hari Kerja'])  # Pilih hari libur atau kerja
-selected_day_type = st.sidebar.selectbox("Pilih Tipe Hari:", ['Hari Kerja', 'Akhir Pekan'])  # Pilih Hari Kerja atau Akhir Pekan
+selected_day_type = st.sidebar.multiselect("Pilih Tipe Hari:", ['Hari Kerja', 'Akhir Pekan'])  # Pilih Hari Kerja atau Akhir Pekan
 
 # Filter data berdasarkan pilihan dari sidebar
 filtered_df_season = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
 
-# Memastikan hanya mengambil data untuk Hari Libur atau Hari Kerja yang dipilih
-if 'Hari Libur' in selected_holiday and 'Hari Kerja' in selected_holiday:
-    filtered_df_holiday = filtered_df_season
-elif 'Hari Libur' in selected_holiday:
-    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 1]  # Ambil data hari libur
+# Memastikan hanya mengambil data untuk Hari Kerja atau Akhir Pekan yang dipilih
+if selected_day_type == 'Hari Kerja':
+    filtered_df_day = filtered_df_season[filtered_df_season['holiday'] == 0]  # Ambil data hari kerja
 else:
-    filtered_df_holiday = filtered_df_season[filtered_df_season['holiday'] == 0]  # Ambil data hari kerja
+    filtered_df_day = filtered_df_season[filtered_df_season['holiday'] == 1]  # Ambil data akhir pekan
 
 # Mengelompokkan data dan menghitung rata-rata 'cnt'
-rata_rata_penyewaan = filtered_df_holiday.groupby(['season', 'holiday', 'workingday'])['count'].mean().reset_index()
+rata_rata_penyewaan = filtered_df_day.groupby(['season', 'holiday', 'workingday'])['count'].mean().reset_index()
 
 # Membuat bar chart
 plt.figure(figsize=(12, 6))
 sns.barplot(x='season', y='count', hue='workingday', data=rata_rata_penyewaan)
-plt.title(f'Rata-rata Jumlah Penyewaan Sepeda per Musim (Hari Kerja vs. Hari Libur) untuk Musim {", ".join(map(str, selected_season))}')
+plt.title(f'Rata-rata Jumlah Penyewaan Sepeda per Musim ({selected_day_type})')
 plt.xlabel('Musim')
 plt.ylabel('Rata-rata Jumlah Penyewaan')
 plt.legend(title='Tipe Hari', labels=['Hari Kerja', 'Hari Libur'])
