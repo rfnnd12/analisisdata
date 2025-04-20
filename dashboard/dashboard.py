@@ -9,7 +9,7 @@ import plotly.express as px
 app = dash.Dash(__name__)
 
 # Load the data
-hour_df = pd.read_csv('path_to_your_bike_sharing_data.csv')  # Update with actual path to the dataset
+hour_df = pd.read_csv('hour_cleaned.csv')  # Update with actual path to the dataset
 hour_df['dteday'] = pd.to_datetime(hour_df['dteday'])
 
 # Define layout
