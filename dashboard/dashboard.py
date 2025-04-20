@@ -15,8 +15,10 @@ hourly_rental_counts = hour_df.groupby(['hour', 'weekday'], observed=False)['cou
 
 # Membuat line chart untuk distribusi penyewaan sepeda berdasarkan jam
 plt.figure(figsize=(12, 6))
-sns.lineplot(x='hour', y='count', data=plot_data, label=selected_day_type, color='blue')
+sns.lineplot(x='hour', y='count', data=weekday_data, label='Hari Kerja')
 
+# Membuat line chart untuk akhir pekan
+sns.lineplot(x='hour', y='count', data=weekend_data, label='Akhir Pekan')
 plt.title(f'Distribusi Jumlah Penyewaan Sepeda Berdasarkan Jam ({selected_day_type})')
 plt.xlabel('Jam')
 plt.ylabel('Jumlah Penyewaan')
