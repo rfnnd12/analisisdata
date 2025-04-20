@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 # Membaca data
 hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada dalam folder yang sama
 
+st.write(hour_df.columns)
+
 # Sidebar for interactive filters
 selected_season = st.sidebar.selectbox("Pilih Musim untuk Filter:", hour_df['season'].unique())
 selected_weather = st.sidebar.selectbox("Pilih Kondisi Cuaca untuk Filter:", hour_df['weather'].unique())
