@@ -81,4 +81,4 @@ st.pyplot(plt)
 
 
 st.write("### Data Penyewaan per Jam (Head):")
-st.write(hourly_data.head()) 
+st.write(hour_data.head()) 
