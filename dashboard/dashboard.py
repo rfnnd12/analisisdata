@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada dalam folder yang sama
 
 # Mengelompokkan data dan menghitung rata-rata 'cnt'
-rata_rata_penyewaan = filtered_df_holiday.groupby(['season', 'holiday', 'workingday'])['count'].mean().reset_index()
+rata_rata_penyewaan = hour_df.groupby(['season', 'holiday', 'workingday'])['count'].mean().reset_index()
 
 # Membuat bar chart
 plt.figure(figsize=(12, 6))
