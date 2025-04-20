@@ -11,3 +11,11 @@ st.title("Dashboard Analisis Data Bike Sharing")
 st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 
 
+plt.figure(figsize=(10,6))
+sns.boxplot(x='weather', y='count', data=hour_df)
+plt.title("Pengaruh Kondisi Cuaca Terhadap Jumlah Penyewaan Sepeda")
+plt.xlabel("Kondisi Cuaca")
+plt.ylabel("Jumlah Penyewaan")
+plt.show()
+
+
