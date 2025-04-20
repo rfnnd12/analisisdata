@@ -66,8 +66,10 @@ winter_data = hourly_rental_counts[hourly_rental_counts['season'] == 'winter']
 
 # Membuat line chart untuk distribusi jumlah penyewaan berdasarkan jam untuk musim tertentu dengan warna yang sesuai
 plt.figure(figsize=(12, 6))
-sns.lineplot(x='hour', y='count', hue='season', data=hourly_rental_counts_for_distribution, palette={"spring": "lightblue", "summer": "orange", "fall": "green", "winter": "red"})
-
+sns.lineplot(x='hour', y='count', data=spring_data, label='Spring')
+sns.lineplot(x='hour', y='count', data=summer_data, label='Summer')
+sns.lineplot(x='hour', y='count', data=fall_data, label='Fall')
+sns.lineplot(x='hour', y='count', data=winter_data, label='Winter')
 plt.title('Distribusi Jumlah Penyewaan Sepeda per Musim Berdasarkan Jam')
 plt.xlabel('Jam')
 plt.ylabel('Jumlah Penyewaan')
