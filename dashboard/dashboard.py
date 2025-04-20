@@ -4,18 +4,15 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Membaca data
-data = pd.read_csv('dashboard/hour_cleaned.csv')  # Pastikan file CSV berada dalam folder yang sama
+hour_df = pd.read_csv('dashboard/hour_cleaned.csv')  # Pastikan file CSV berada dalam folder yang sama
 
 # Menampilkan header
 st.title("Dashboard Analisis Data Bike Sharing")
 st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 
-st.write(data.head())
-
 hour_df.groupby('weather').agg({
     'count': ['max', 'min', 'mean', 'sum']
 })
-
 
 plt.figure(figsize=(10,6))
 sns.boxplot(x='weather', y='count', data=hour_df)
