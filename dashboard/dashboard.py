@@ -43,11 +43,9 @@ st.pyplot(plt)
 
 
 # **Bagian untuk plot distribusi jumlah penyewaan berdasarkan jam per musim**
-# Memfilter data untuk distribusi musim menggunakan satu multiselect
-selected_season_for_distribution = st.sidebar.multiselect("Pilih Musim untuk Filter Distribusi:", hour_df['season'].unique(), default=hour_df['season'].unique())  # Filter distribusi musim
 
 # Memfilter data berdasarkan musim yang dipilih di multiselect
-filtered_df_season_for_distribution = hour_df[hour_df['season'].isin(selected_season_for_distribution)]  # Menggunakan .isin untuk beberapa musim
+filtered_df_season_for_distribution = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
 
 # Mengelompokkan data dan menghitung jumlah penyewaan per jam per musim
 hourly_rental_counts_for_distribution = filtered_df_season_for_distribution.groupby(['hour', 'season'])['count'].sum().reset_index()
