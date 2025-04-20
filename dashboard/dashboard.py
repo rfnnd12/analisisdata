@@ -8,7 +8,7 @@ hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada da
 
 # Sidebar untuk filter interaktif
 selected_season = st.sidebar.multiselect("Pilih Musim untuk Filter:", hour_df['season'].unique())
-selected_weather = st.sidebar.selectbox("Pilih Kondisi Cuaca untuk Filter:", hour_df['weather'].unique())
+selected_weather = st.sidebar.multiselect("Pilih Kondisi Cuaca untuk Filter:", hour_df['weather'].unique())
 
 # Filter data berdasarkan pilihan dari sidebar
 filtered_df_season = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
