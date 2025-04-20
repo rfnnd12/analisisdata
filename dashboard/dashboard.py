@@ -10,6 +10,8 @@ hour_df = pd.read_csv('dashboard/hour_cleaned.csv')  # Pastikan file CSV berada 
 st.title("Dashboard Analisis Data Bike Sharing")
 st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 
+st.write(hour_df.columns)
+
 hour_df.groupby('weathersit').agg({
     'count': ['max', 'min', 'mean', 'sum']
 })
