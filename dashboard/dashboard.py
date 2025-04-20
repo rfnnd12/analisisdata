@@ -49,27 +49,13 @@ selected_season_for_distribution = st.sidebar.multiselect("Pilih Musim untuk Fil
 # Memfilter data berdasarkan musim yang dipilih di multiselect
 filtered_df_season_for_distribution = hour_df[hour_df['season'].isin(selected_season_for_distribution)]  # Menggunakan .isin untuk beberapa musim
 
-# Mengelompokkan data dan menghitung jumlah penyewaan per jam untuk setiap musim
-hourly_rental_counts = hour_df.groupby(['hour', 'season'], observed=False)['count'].sum().reset_index()
-
-# Memfilter data untuk musim semi
-spring_data = hourly_rental_counts[hourly_rental_counts['season'] == 'spring']
-
-# Memfilter data untuk musim panas
-summer_data = hourly_rental_counts[hourly_rental_counts['season'] == 'summer']
-
-# Memfilter data untuk musim gugur
-fall_data = hourly_rental_counts[hourly_rental_counts['season'] == 'fall']
-
-# Memfilter data untuk musim dingin
-winter_data = hourly_rental_counts[hourly_rental_counts['season'] == 'winter']
+# Mengelompokkan data dan menghitung jumlah penyewaan per jam per musim
+hourly_rental_counts_for_distribution = filtered_df_season_for_distribution.groupby(['hour', 'season'])['count'].sum().reset_index()
 
 # Membuat line chart untuk distribusi jumlah penyewaan berdasarkan jam untuk musim tertentu dengan warna yang sesuai
 plt.figure(figsize=(12, 6))
-sns.lineplot(x='hour', y='count', data=spring_data, label='Spring')
-sns.lineplot(x='hour', y='count', data=summer_data, label='Summer')
-sns.lineplot(x='hour', y='count', data=fall_data, label='Fall')
-sns.lineplot(x='hour', y='count', data=winter_data, label='Winter')
+sns.lineplot(x='hour', y='count', hue='season', data=hourly_rental_counts_for_distribution, palette={"spring": "lightblue", "summer": "orange", "fall": "green", "winter": "red"})
+
 plt.title('Distribusi Jumlah Penyewaan Sepeda per Musim Berdasarkan Jam')
 plt.xlabel('Jam')
 plt.ylabel('Jumlah Penyewaan')
@@ -78,7 +64,3 @@ plt.grid(True)
 
 # Menampilkan plot di Streamlit
 st.pyplot(plt)
-
-
-st.write("### Data Penyewaan per Jam (Head):")
-st.write(hour_df.head()) 
