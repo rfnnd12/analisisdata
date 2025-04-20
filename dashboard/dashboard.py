@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada dalam folder yang sama
 
 # Sidebar untuk filter interaktif
-selected_season = st.sidebar.selectbox("Pilih Musim untuk Filter:", hour_df['season'].unique())
-selected_weather = st.sidebar.selectbox("Pilih Kondisi Cuaca untuk Filter:", hour_df['weather'].unique())
+selected_season = st.sidebar.multiselect("Pilih Musim untuk Filter:", hour_df['season'].unique())
+selected_weather = st.sidebar.multiselect("Pilih Kondisi Cuaca untuk Filter:", hour_df['weather'].unique())
 
 # Filter data berdasarkan pilihan dari sidebar
-filtered_df_season = hour_df[hour_df['season'] == selected_season]
+filtered_df_season = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
 filtered_df_weather = filtered_df_season[filtered_df_season['weather'] == selected_weather]
 
 # Business Question 1: Apa pengaruh Cuaca Terhadap Jumlah Penyewaan Sepeda?
@@ -33,7 +33,7 @@ hourly_rental_counts = filtered_df_season.groupby('hour')['count'].sum().reset_i
 # Plot
 plt.figure(figsize=(12, 6))
 sns.barplot(x='hour', y='count', data=hourly_rental_counts)
-plt.title(f'Pola Penyewaan Sepeda Berdasarkan Jam ({selected_season})')
+plt.title(f'Pola Penyewaan Sepeda Berdasarkan Jam ({", ".join(selected_season)})')
 plt.xlabel('Jam')
 plt.ylabel('Jumlah Penyewaan')
 st.pyplot(plt)
@@ -45,7 +45,7 @@ rata_rata_penyewaan_per_musim = filtered_df_season.groupby('season')['count'].me
 # Plot
 plt.figure(figsize=(10, 6))
 sns.barplot(x='season', y='count', data=rata_rata_penyewaan_per_musim)
-plt.title(f'Rata-rata Jumlah Penyewaan Sepeda per Musim ({selected_season})')
+plt.title(f'Rata-rata Jumlah Penyewaan Sepeda per Musim ({", ".join(selected_season)})')
 plt.xlabel('Musim')
 plt.ylabel('Rata-rata Jumlah Penyewaan')
 st.pyplot(plt)
