@@ -23,7 +23,7 @@ rata_rata_penyewaan = filtered_df_holiday.groupby(['season', 'holiday', 'working
 
 # Membuat bar chart
 plt.figure(figsize=(12, 6))
-sns.barplot(x='season', y='count', hue='workingday', data=rata_rata_penyewaan)  # Tidak perlu filter lebih lanjut karena sudah dilakukan
+sns.barplot(x='season', y='count', hue='workingday', data=rata_rata_penyewaan[rata_rata_penyewaan['holiday'] == 0])
 plt.title(f'Rata-rata Jumlah Penyewaan Sepeda per Musim (Hari Kerja vs. Hari Libur) untuk Musim {", ".join(map(str, selected_season))}')
 plt.xlabel('Musim')
 plt.ylabel('Rata-rata Jumlah Penyewaan')
