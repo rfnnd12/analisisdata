@@ -16,13 +16,13 @@ filtered_df_weather = filtered_df_season[filtered_df_season['weather'] == select
 
 # Business Question 1: Apa pengaruh Cuaca Terhadap Jumlah Penyewaan Sepeda?
 st.write("### Apakah hari dengan cuaca buruk seperti “Light Snow/Rain” atau “Severe Weather” menunjukkan penurunan signifikan pada jumlah penyewaan?")
-hour_df_grouped_weather = filtered_df_weather.groupby('weather')['count'].sum().reset_index()
+hour_df_grouped_weather = filtered_df_weather.groupby(['season', 'weather'])['count'].sum().reset_index()
 
-# Plot
-plt.figure(figsize=(10, 6))
-sns.barplot(x='weather', y='count', data=hour_df_grouped_weather)
-plt.title(f'Pengaruh Cuaca {selected_weather} Terhadap Jumlah Penyewaan Sepeda')
-plt.xlabel('Kondisi Cuaca')
+# Plot untuk perbandingan antara musim dan cuaca
+plt.figure(figsize=(12, 6))
+sns.barplot(x='season', y='count', hue='weather', data=hour_df_grouped_weather)
+plt.title(f'Perbandingan Jumlah Penyewaan Sepeda Berdasarkan Musim dan Cuaca')
+plt.xlabel('Musim')
 plt.ylabel('Jumlah Penyewaan')
 st.pyplot(plt)
 
