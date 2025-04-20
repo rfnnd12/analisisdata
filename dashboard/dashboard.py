@@ -29,7 +29,7 @@ sns.lineplot(x='hour', y='count', data=weekend_data, label='Akhir Pekan')
 plt.title(f'Distribusi Jumlah Penyewaan Sepeda Berdasarkan Jam )')
 plt.xlabel('Jam')
 plt.ylabel('Jumlah Penyewaan')
-plt.legend(title='Tipe Hari', labels=[selected_day_type])
+plt.legend()
 plt.grid(True)
 
 # Menampilkan plot di Streamlit
