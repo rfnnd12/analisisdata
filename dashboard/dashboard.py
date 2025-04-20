@@ -88,3 +88,41 @@ plt.legend(title='Kondisi Cuaca')
 
 # Menampilkan plot di Streamlit
 st.pyplot(plt)
+
+
+
+import streamlit as st
+
+# Menampilkan judul dan kesimpulan
+st.write("### Conclusion")
+
+st.markdown("""
+1. **Pengaruh Musim Terhadap Penyewaan Sepeda**  
+   Pola Musiman menunjukkan adanya perbedaan signifikan dalam jumlah penyewaan sepeda di berbagai musim. Musim **musim panas (summer)** cenderung memiliki jumlah penyewaan yang lebih tinggi dibandingkan dengan musim **dingin (winter)**, yang mencerminkan kecenderungan orang untuk lebih sering menggunakan sepeda saat cuaca lebih hangat dan nyaman.
+
+   Selain itu, musim **gugur (fall)** dan **semi (spring)** juga menunjukkan pola penyewaan yang cukup tinggi, tetapi tidak setinggi musim panas, yang lebih mungkin dipengaruhi oleh suhu yang lebih rendah dibandingkan dengan musim panas.
+
+2. **Pengaruh Hari Kerja vs Hari Libur**  
+   Penyewaan sepeda lebih tinggi pada **hari kerja** dibandingkan dengan **hari libur**. Hal ini mungkin disebabkan oleh banyak orang yang menggunakannya sebagai moda transportasi untuk bekerja atau beraktivitas di luar rumah.
+
+   Pada sisi lain, jumlah penyewaan lebih rendah di **hari libur**, yang bisa disebabkan oleh orang-orang yang lebih memilih untuk beristirahat di rumah atau menggunakan moda transportasi lain untuk rekreasi.
+
+3. **Distribusi Penyewaan Sepeda Berdasarkan Jam**  
+   Terdapat pola yang jelas pada **distribusi penyewaan sepeda per jam**. Penyewaan sepeda menunjukkan puncaknya pada **jam sibuk pagi (6:00 AM - 8:00 AM)** dan **sore (4:00 PM - 6:00 PM)**, yang mungkin mencerminkan penggunaan sepeda sebagai transportasi untuk perjalanan ke tempat kerja atau pulang kerja.
+
+   Sebaliknya, pada **jam-jam malam hari** dan **siang hari** penyewaan sepeda cenderung lebih rendah, menunjukkan bahwa penggunaan sepeda lebih terbatas pada jam kerja atau jam sibuk transportasi.
+
+4. **Pengaruh Kondisi Cuaca**  
+   **Cuaca buruk** seperti **hujan ringan**, **salju**, atau **cuaca ekstrem** jelas mengurangi jumlah penyewaan sepeda. Pada kondisi cuaca buruk, banyak orang cenderung menghindari menggunakan sepeda, memilih untuk menggunakan moda transportasi lain yang lebih aman dan nyaman.
+
+   Sebaliknya, pada **cuaca cerah dan hangat**, penyewaan sepeda lebih banyak, terutama selama **musim panas** dan **semi**, yang menunjukkan bahwa cuaca memainkan peran besar dalam menentukan pola penggunaan sepeda.
+
+5. **Pengaruh Bulan dan Musim dalam Distribusi Penyewaan**  
+   Penyewaan sepeda berdasarkan bulan menunjukkan pola musiman yang berbeda di setiap bulan. Sebagian besar penyewaan terjadi di bulan-bulan **musim semi** dan **musim panas**, sementara bulan-bulan **musim dingin** dan **musim gugur** cenderung memiliki penyewaan lebih rendah.
+
+   Penyewaan selama **bulan Mei hingga Agustus** terlihat lebih tinggi, mungkin karena cuaca yang lebih baik, **liburan musim panas**, dan peningkatan aktivitas luar ruangan.
+""")
+
+# Menambahkan kredit pembuat
+st.write("**Pembuat: Rafi Nadna**")
+
