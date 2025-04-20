@@ -13,6 +13,7 @@ hour_df = pd.read_csv('dashboard/hour_clean.csv')  # Pastikan file CSV berada da
 # Sidebar untuk filter interaktif
 selected_season = st.sidebar.multiselect("Pilih Musim untuk Filter:", hour_df['season'].unique(), default=hour_df['season'].unique())  # Pilih musim
 selected_holiday = st.sidebar.multiselect("Pilih Hari Libur atau Hari Kerja:", ['Hari Libur', 'Hari Kerja'])  # Pilih hari libur atau kerja
+selected_day_type = st.sidebar.selectbox("Pilih Tipe Hari:", ['Hari Kerja', 'Akhir Pekan'])  # Pilih Hari Kerja atau Akhir Pekan
 
 # Filter data berdasarkan pilihan dari sidebar
 filtered_df_season = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
@@ -48,17 +49,20 @@ weekday_data = hourly_rental_counts[hourly_rental_counts['weekday'].isin(['Senin
 # Memfilter data untuk akhir pekan (Sabtu-Minggu)
 weekend_data = hourly_rental_counts[hourly_rental_counts['weekday'].isin(['Sabtu', 'Minggu'])]
 
-# Membuat line chart untuk hari kerja
+# Memilih data sesuai dengan pilihan pengguna di sidebar
+if selected_day_type == 'Hari Kerja':
+    plot_data = weekday_data
+else:
+    plot_data = weekend_data
+
+# Membuat line chart untuk distribusi penyewaan sepeda berdasarkan jam
 plt.figure(figsize=(12, 6))
-sns.lineplot(x='hour', y='count', data=weekday_data, label='Hari Kerja')
+sns.lineplot(x='hour', y='count', data=plot_data, label=selected_day_type)
 
-# Membuat line chart untuk akhir pekan
-sns.lineplot(x='hour', y='count', data=weekend_data, label='Akhir Pekan')
-
-plt.title('Distribusi Jumlah Penyewaan Sepeda Berdasarkan Jam (Hari Kerja vs Akhir Pekan)')
+plt.title(f'Distribusi Jumlah Penyewaan Sepeda Berdasarkan Jam ({selected_day_type})')
 plt.xlabel('Jam')
 plt.ylabel('Jumlah Penyewaan')
-plt.legend()
+plt.legend(title='Tipe Hari', labels=[selected_day_type])
 plt.grid(True)
 
 # Menampilkan plot di Streamlit
