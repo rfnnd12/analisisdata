@@ -11,6 +11,11 @@ st.title("Dashboard Analisis Data Bike Sharing")
 st.write("Analisis data Bike Sharing untuk memahami pola penggunaan sepeda.")
 
 
+hour_df.groupby('weather').agg({
+    'count': ['max', 'min', 'mean', 'sum']
+})
+
+
 plt.figure(figsize=(10,6))
 sns.boxplot(x='weather', y='count', data=hour_df)
 plt.title("Pengaruh Kondisi Cuaca Terhadap Jumlah Penyewaan Sepeda")
