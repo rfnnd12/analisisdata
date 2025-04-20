@@ -46,12 +46,14 @@ st.pyplot(plt)
 # Memfilter data berdasarkan musim yang dipilih di multiselect
 filtered_df_season_for_distribution = hour_df[hour_df['season'].isin(selected_season)]  # Menggunakan .isin untuk beberapa musim
 
+
+
 # Mengelompokkan data dan menghitung jumlah penyewaan per jam per musim
 hourly_rental_counts_for_distribution = filtered_df_season_for_distribution.groupby(['hour', 'season'])['count'].sum().reset_index()
 
 # Membuat line chart untuk distribusi jumlah penyewaan berdasarkan jam untuk musim tertentu
 plt.figure(figsize=(12, 6))
-sns.lineplot(x='hour', y='count', hue='season', data=hourly_rental_counts_for_distribution)
+sns.lineplot(x='hour', y='count', hue='season', data=hourly_rental_counts_for_distribution, palette={"spring": "lightblue", "summer": "orange", "fall": "green", "winter": "red"})
 
 plt.title('Distribusi Jumlah Penyewaan Sepeda per Musim Berdasarkan Jam')
 plt.xlabel('Jam')
