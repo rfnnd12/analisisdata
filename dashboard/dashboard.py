@@ -49,3 +49,36 @@ fig.tight_layout()
 
 # Tampilkan di Streamlit
 st.pyplot(fig)
+
+
+# ========================================================================================
+# Tampilkan judul di Streamlit
+st.header("📊 Distribusi Penyewaan Sepeda: Hari Kerja vs Hari Libur")
+
+# Agregasi statistik mean, median, dan standar deviasi
+holiday_weekday_agg = hour_df.groupby(['workingday', 'holiday'])['count'].agg(['mean', 'median', 'std']).reset_index()
+
+# Tampilkan tabel hasil agregasi ke Streamlit
+st.subheader("📋 Rangkuman Statistik")
+st.dataframe(holiday_weekday_agg)
+
+# Visualisasi histogram dengan seaborn
+fig, ax = plt.subplots(figsize=(10, 6))
+sns.histplot(
+    data=hour_df,
+    x='count',
+    hue='workingday',
+    bins=30,
+    kde=False,
+    palette=['#FF9999', '#66B3FF'],
+    ax=ax
+)
+
+# Judul dan label
+ax.set_title('Distribusi Penyewaan Sepeda: Hari Kerja vs Hari Libur', fontsize=14)
+ax.set_xlabel('Jumlah Penyewaan')
+ax.set_ylabel('Frekuensi')
+ax.legend(title='Hari Kerja', labels=['Hari Libur', 'Hari Kerja'])
+
+# Tampilkan ke Streamlit
+st.pyplot(fig)
