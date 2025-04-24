@@ -87,3 +87,36 @@ ax.set_title('Distribusi Penyewaan: Hari Libur Nasional vs Hari Biasa', fontsize
 ax.set_xlabel('Hari Libur (1: Ya, 0: Tidak)')
 ax.set_ylabel('Jumlah Penyewaan')
 st.pyplot(fig)
+
+
+
+import streamlit as st
+
+st.title("📊 Conlusion Hasil Analisis Penyewaan Sepeda")
+
+st.header("📅 Tren Penyewaan Bulanan (2011–2012)")
+st.write("""
+- Terlihat adanya pola musiman yang konsisten: penyewaan sepeda meningkat signifikan selama musim semi dan musim panas (sekitar Maret–September), dan menurun selama musim dingin (Oktober–Februari).
+- Puncak penyewaan terjadi sekitar pertengahan hingga akhir 2012, menunjukkan tren peningkatan popularitas layanan ini dari tahun ke tahun.
+""")
+
+st.header("👔 vs 🏖️ Distribusi Hari Kerja vs Hari Libur")
+st.write("""
+- Penyewaan sepeda lebih sering terjadi pada hari kerja dibanding hari libur.
+- Meskipun penyewaan tetap ada di hari libur, frekuensinya cenderung lebih rendah.
+- Distribusi menunjukkan bahwa sebagian besar penyewaan terjadi pada rentang rendah hingga sedang (0–300).
+""")
+
+st.header("📈 Total Penyewaan per Tahun")
+st.write("""
+- Tahun 2012 mencatat penyewaan sepeda lebih banyak dibandingkan 2011, dengan peningkatan yang cukup signifikan.
+- Hal ini menunjukkan pertumbuhan penggunaan sepeda selama dua tahun tersebut, kemungkinan karena meningkatnya adopsi masyarakat atau perluasan layanan.
+""")
+
+st.header("🏛️ Hari Libur Nasional vs Hari Biasa")
+st.write("""
+- Rata-rata penyewaan pada hari biasa cenderung lebih tinggi daripada hari libur nasional.
+- Terdapat lebih banyak outlier (nilai ekstrim tinggi) pada hari biasa, menandakan penggunaan intensif sepeda di hari-hari kerja.
+- Distribusi hari libur nasional menunjukkan variasi lebih sempit.
+""")
+
