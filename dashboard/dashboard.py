@@ -106,3 +106,23 @@ ax.set_ylabel('Total Rentals')
 
 # Tampilkan plot di Streamlit
 st.pyplot(fig)
+
+
+# ========================================================================================
+
+# Judul untuk bagian visualisasi
+st.header("📦 Distribusi Penyewaan Sepeda: Hari Libur Nasional vs Hari Biasa")
+
+# Buat figure dan axis
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Boxplot dengan seaborn
+sns.boxplot(x='holiday', y='count', data=hour_df, palette='Set3', ax=ax)
+
+# Judul dan label sumbu
+ax.set_title('Distribusi Penyewaan Sepeda: Hari Libur Nasional vs Hari Biasa', fontsize=14)
+ax.set_xlabel('Hari Libur (1: Ya, 0: Tidak)')
+ax.set_ylabel('Jumlah Penyewaan')
+
+# Tampilkan plot ke Streamlit
+st.pyplot(fig)
