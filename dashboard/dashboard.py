@@ -58,10 +58,6 @@ st.header("📊 Distribusi Penyewaan Sepeda: Hari Kerja vs Hari Libur")
 # Agregasi statistik mean, median, dan standar deviasi
 holiday_weekday_agg = hour_df.groupby(['workingday', 'holiday'])['count'].agg(['mean', 'median', 'std']).reset_index()
 
-# Tampilkan tabel hasil agregasi ke Streamlit
-st.subheader("📋 Rangkuman Statistik")
-st.dataframe(holiday_weekday_agg)
-
 # Visualisasi histogram dengan seaborn
 fig, ax = plt.subplots(figsize=(10, 6))
 sns.histplot(
