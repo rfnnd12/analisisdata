@@ -78,3 +78,31 @@ ax.legend(title='Hari Kerja', labels=['Hari Libur', 'Hari Kerja'])
 
 # Tampilkan ke Streamlit
 st.pyplot(fig)
+
+
+# ========================================================================================
+# Pastikan kolom tanggal sudah dalam format datetime
+hour_df['dateday'] = pd.to_datetime(hour_df['dateday'])
+
+# Ekstrak tahun dari kolom tanggal
+hour_df['year'] = hour_df['dateday'].dt.year
+
+# Agregasi jumlah penyewaan per tahun
+yearly_rentals = hour_df.groupby('year')['count'].sum()
+
+# ======================= STREAMLIT PLOTTING =======================
+
+# Judul halaman Streamlit
+st.header("📊 Total Bike Rentals per Year")
+
+# Buat bar chart
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.barplot(x=yearly_rentals.index, y=yearly_rentals.values, ax=ax)
+
+# Judul dan label sumbu
+ax.set_title('Total Bike Rentals per Year')
+ax.set_xlabel('Year')
+ax.set_ylabel('Total Rentals')
+
+# Tampilkan plot di Streamlit
+st.pyplot(fig)
